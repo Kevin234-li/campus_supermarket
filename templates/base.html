@@ -2,32 +2,75 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/reset.css">
     <title>Title</title>
 </head>
 <body>
-    <div class="top">
-        <div>欢迎来到校园超市！</div>
-        <div>
-            {% if user.id %}
-                欢迎您，{{ user.username }}
+    <div class="top_con">
+        <div class="top">
+            <div class="fl">欢迎来到校园超市！</div>
+            <div class="fr">
+                {% if user.id %}
+                    欢迎您，{{ user.username }}
+                    <span>|</span>
+                    <a href="{% url 'user:logout' %}">退出</a>
+                {% else %}
+                    欢迎您，访客！
+                    <span>|</span>
+                    <a href="{% url 'user:login' %}">登录</a>
+                    <span>|</span>
+                    <a href="{% url 'user:register' %}">注册</a>
+                {% endif %}
+               <span>|</span>
+                <a href="{% url 'user:profile' %}">用户中心</a>
                 <span>|</span>
-                <a href="{% url 'user:logout' %}">退出</a>
-            {% else %}
-                欢迎您，访客！
+                <a href="{% url 'order:cart' %}">我的购物车</a>
                 <span>|</span>
-                <a href="{% url 'user:login' %}">登录</a>
-                <span>|</span>
-                <a href="{% url 'user:register' %}">注册</a>
-            {% endif %}
+                <a href="{% url 'order:cart' %}">我的订单</a>
+            </div>
         </div>
-        <div>
-           <span>|</span>
-            <a href="{% url 'user:profile' %}">用户中心</a>
-            <span>|</span>
-            <a href="{% url 'order:cart' %}">我的购物车</a>
-            <span>|</span>
-            <a href="{% url 'order:cart' %}">我的订单</a>
-        </div>
+    </div>
+    <div class="search_bar">
+		<a href="/goods/index/" class="fl"><img class="logo" src="/static/images/logo.png"></a>
+		<div class="search_con fl">
+			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
+			<input type="button" class="input_btn fr" name="" value="搜索">
+		</div>
+		<div class="cart fr">
+			<a href="/order/cart/" class="cart_con">我的购物车</a>
+		</div>
+	</div>
+    <div class="navbar">
+		<div class="navbar_con">
+            <h1 class="fl">全部商品分类</h1>
+            <span class="nav_item fl" style="margin-left: 34px"><a href="#">首页</a></span>
+            <span class="nav_item fl">|</span>
+            <span class="nav_item fl"><a href="#">手机超市</a></span>
+            <span class="nav_item fl">|</span>
+            <span class="nav_item fl"><a href="#">抽奖</a></span>
+		</div>
+	</div>
+    <div class="clearfix" style="margin: 0 auto">
+        <ul class="subnav fl">
+			<li><a href="#model01" class="fruit">新鲜水果</a></li>
+			<li><a href="#model02" class="seafood">海鲜水产</a></li>
+			<li><a href="#model03" class="meet">猪牛羊肉</a></li>
+			<li><a href="#model04" class="egg">禽类蛋品</a></li>
+			<li><a href="#model05" class="vegetables">新鲜蔬菜</a></li>
+			<li><a href="#model06" class="ice">速冻食品</a></li>
+		</ul>
+        <div class="slide fl">
+			<ul class="slide_pics">
+				<li><img src="../images/slide.jpg" alt="幻灯片"></li>
+				<li><img src="../images/slide02.jpg" alt="幻灯片"></li>
+				<li><img src="../images/slide03.jpg" alt="幻灯片"></li>
+				<li><img src="../images/slide04.jpg" alt="幻灯片"></li>
+			</ul>
+			<div class="prev"></div>
+			<div class="next"></div>
+			<ul class="points"></ul>
+		</div>
     </div>
 </body>
 </html>
