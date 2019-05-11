@@ -5,7 +5,7 @@ from django.db import models
 
 class OrderInfo(models.Model):
     # order_id = models.CharField(max_length=20, primary_key=True)        # 订单id
-    order_user = models.ForeignKey('user', on_delete=models.CASCADE)    # 关联用户
+    order_user = models.ForeignKey('user.User', on_delete=models.CASCADE)    # 关联用户
     order_date = models.DateTimeField(auto_now=True)                    # 购买日期
     order_pay = models.BooleanField(default=False)                      # 付款属性
     order_total = models.DecimalField(max_digits=6, decimal_places=2)   # 总价

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class="top">
+        <div>欢迎来到校园超市！</div>
+        <div>
+            {% if user.id %}
+                欢迎您，{{ user.username }}
+                <span>|</span>
+                <a href="{% url 'user:logout' %}">退出</a>
+            {% else %}
+                欢迎您，访客！
+                <span>|</span>
+                <a href="{% url 'user:login' %}">登录</a>
+                <span>|</span>
+                <a href="{% url 'user:register' %}">注册</a>
+            {% endif %}
+        </div>
+        <div>
+           <span>|</span>
+            <a href="{% url 'user:profile' %}">用户中心</a>
+            <span>|</span>
+            <a href="{% url 'order:cart' %}">我的购物车</a>
+            <span>|</span>
+            <a href="{% url 'order:cart' %}">我的订单</a>
+        </div>
+    </div>
+</body>
+</html>
