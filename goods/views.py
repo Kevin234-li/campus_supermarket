@@ -13,5 +13,10 @@ def index(request):
     # return HttpResponse("Hello, Django")
 
 
+def detail(request):
+    pass
+
+
+
 
 

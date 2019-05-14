@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from django.contrib.auth.hashers import make_password, check_password
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 # Create your views here.
@@ -50,17 +50,29 @@ def register(request):
                 'msg': '请填写完整的信息'
             }
             return render(request, 'register.html', data)
+        if password != password_c:
+            data = {
+                'msg': '两次密码不一致'
+            }
+            return render(request, 'register.html', data)
         # 加密password
         password = make_password(password)
-        password_c = make_password(password_c)
         # 创建用户并添加到数据库
         User.objects.create(username=username,
                             password=password,
-                            password_c=password_c,
                             email=email)
         # 注册成功跳转到登陆页面
         return HttpResponseRedirect(reverse('user:login'))
 
+
 def profile(request):
-    pass
+    return HttpResponse("Hello, Profile...")
+
+
+def cart(request):
+    return HttpResponse("Hello, my cart...")
+
+
+def order_history(request):
+    return HttpResponse("Hello, my order history...")
 

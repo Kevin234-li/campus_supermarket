@@ -21,6 +21,6 @@ urlpatterns = [
     url(r'^user/', include('user.urls', namespace='user')),
     url(r'^order/', include('order.urls', namespace='order')),
     url(r'^goods/', include('goods.urls', namespace='goods')),
-    url(r'index/', views.index),
+    url(r'^index/', views.index),
     url(r'', views.index)
 ]

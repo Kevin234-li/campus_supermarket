@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#  网址后自动添加/
+APPEND_SLASH = True
 
 # Application definition
 
