@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<div>
+    <span><a href="{% url 'cs_admin:index2' %}">首页</a></span>
+    <span>|</span>
+    <span><a href="{% url 'cs_admin:profile' %}">个人中心</a></span>
+</div>
+<aside>
+    <h1>商品管理</h1>
+    <a href="{% url 'cs_admin:list_goods' %}">商品列表</a><br>
+    <a href="{% url 'cs_admin:add_goods' %}">添加商品</a><br>
+    <h1>管理员信息</h1>
+    <a href="{% url 'cs_admin:list_admin' %}">管理员列表</a><br>
+    <a href="{% url 'cs_admin:add_admin' %}">添加管理员</a><br>
+</aside>
+<h4>Welcome to my shop!</h4>
+</body>
+</html>

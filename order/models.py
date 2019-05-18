@@ -10,11 +10,13 @@ class OrderInfo(models.Model):
     order_pay = models.BooleanField(default=False)                      # 付款属性
     order_total = models.DecimalField(max_digits=6, decimal_places=2)   # 总价
     # order_address = models.CharField(max_length=150)                    # 收货地址
-
+    class Meta:
+        db_table = 'orderinfo'
 
 class OrderItem(models.Model):
     order_id = models.ForeignKey(OrderInfo, on_delete=models.CASCADE)   #订单id
     goods_id = models.ForeignKey('goods.GoodsInfo', on_delete=models.CASCADE)
     goods_num = models.IntegerField()
-
+    class Meta:
+        db_table = 'order_item'
 

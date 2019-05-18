@@ -11,4 +11,5 @@ class User(models.Model):
     phone = models.CharField(max_length=11, default='')          # 收件人电话
     addressee_p = models.CharField(max_length=6, default='')     # 收件人邮编
     direction = models.CharField(max_length=100, default='')     # 收件人地址
-
+    class Meta:
+        db_table = 'user'

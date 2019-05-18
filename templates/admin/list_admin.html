@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理员列表</title>
+</head>
+<body>
+   <h2 class="fl">管理员列表</h2>
+    <table border="2">
+        <tr>
+            <td>编号</td>
+            <td>用户名</td>
+        </tr>
+        {% for admin in admins %}
+            <tr>
+                <td>{{ admin.id }}</td>
+                <td>{{ admin.username }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加商品</title>
+</head>
+<body>
+<section >
+ <div >
+      <div >
+       <h2 class="fl">添加商品</h2>
+      </div>
+
+ <form action="" method="post" >
+     {% csrf_token %}
+     <section>
+      <ul class="">
+       <li>
+        <span class="item_name" style="width:120px;">商品名称：</span>
+        <input type="text" name="goods_name" class="textbox textbox_295" placeholder="商品名称..." value=""/>
+        <!--<span class="errorTips">错误提示信息...</span>-->
+       </li>
+       <li>
+        <span class="item_name" style="width:120px;">货号：</span>
+        <input type="text" name="goods_num" class="textbox" placeholder="商品货号..." value=""/>
+        <!--<span class="errorTips">错误提示信息...</span>-->
+       </li>
+        <li>
+        <span class="item_name" style="width:120px;">生产厂家：</span>
+        <input type="text" name="goods_manufacturer" class="textbox" placeholder="生产厂家..." value=""/>
+        <!--<span class="errorTips">错误提示信息...</span>-->
+       </li>
+       <li>
+        <span class="item_name" style="width:120px;">价格：</span>
+        <input type="text" name="goods_price" class="textbox" placeholder="商品价格..." value=""/>
+        <!--<span class="errorTips">错误提示信息...</span>-->
+       </li>
+       <li>
+        <span class="item_name" style="width:120px;">单位：</span>
+        <input type="text" name="goods_unit" class="textbox" placeholder="商品单位..." value=""/>
+        <!--<span class="errorTips">错误提示信息...</span>-->
+       </li>
+       <li>
+        <span class="item_name" style="width:120px;">库存：</span>
+        <input type="text" name="goods_repertory" class="textbox" placeholder="商品库存..." value=""/>
+        <!--<span class="errorTips">错误提示信息...</span>-->
+       </li>
+       <li>
+        <span class="item_name" style="width:120px;">商品分类：</span>
+        <select name="kind" class="select">
+            <option>零食</option>
+            <option>水果</option>
+            <option>日用品</option>
+            <option>文具</option>
+        </select>
+       </li>
+       <li>
+        <span class="item_name" style="width:120px;">上传商品图片：</span>
+        <!--<label class="uploadImg">-->
+         <input name="g_img" type="file"/>
+         <!--<span>上传商品图片</span>-->
+        <!--</label>-->
+       </li>
+       <li>
+        <span class="item_name" style="width:120px;"></span>
+        <input type="submit" class="link_btn" value="确定添加"/>
+       </li>
+      </ul>
+     </section>
+ </form>
+ </div>
+</section>
+</body>
+</html>

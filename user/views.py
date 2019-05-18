@@ -28,7 +28,7 @@ def login(request):
                 msg = '用户名或密码错误'
                 return render(request, 'login.html', {'msg': msg})
         else:
-            msg = '用户名不存在,请注册后在登陆'
+            msg = '用户名不存在,请注册后再登陆'
             return render(request, 'login.html', {'msg': msg})
 
 
