@@ -1,36 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>商品列表</title>
-</head>
-<body>
-<h1>商品列表</h1>
-<table border="1">
-    <tr>
-        <td>商品名</td>
-        <td>货号</td>
-        <td>价格</td>
-        <td>单位</td>
-        <td>库存</td>
-        <td>生产商</td>
-        <td>分类</td>
-        <td>编辑</td>
-        <td>删除</td>
-    </tr>
-    {% for goods in goods_list %}
+{% extends 'admin/index2.html' %}
+{% block content %}
+    <h1>商品列表</h1>
+    <a href="https://www.baidu.com/">百度</a>
+    <table border="1">
         <tr>
-            <td>{{ goods.goods_name }}</td>
-            <td>{{ goods.goods_num }}</td>
-            <td>{{ goods.goods_price }}</td>
-            <td>{{ goods.goods_unit }}</td>
-            <td>{{ goods.goods_repertory }}</td>
-            <td>{{ goods.goods_manufacturer }}</td>
-            <td>{{ goods.cag.cag_name }}</td>
-            <td><a href="{% url 'cs_admin:edit_goods' %}?id={{ goods.id }}">编辑</a></td>
-            <td><a href="{% url 'cs_admin:delete_goods' %}?id={{ goods.id }}">删除</a></td>
+            <td>商品名</td>
+            <td>货号</td>
+            <td>价格</td>
+            <td>单位</td>
+            <td>库存</td>
+            <td>生产商</td>
+            <td>分类</td>
+            <td>编辑</td>
+            <td>删除</td>
         </tr>
-    {% endfor %}
-</table>
-</body>
-</html>
+        {% for goods in goods_list %}
+            <tr>
+                <td>{{ goods.goods_name }}</td>
+                <td>{{ goods.goods_num }}</td>
+                <td>{{ goods.goods_price }}</td>
+                <td>{{ goods.goods_unit }}</td>
+                <td>{{ goods.goods_repertory }}</td>
+                <td>{{ goods.goods_manufacturer }}</td>
+                <td>{{ goods.cag.cag_name }}</td>
+                <td><a href="{% url 'cs_admin:edit_goods' %}?id={{ goods.id }}">编辑</a></td>
+                <td><a href="{% url 'cs_admin:delete_goods' %}?id={{ goods.id }}">删除</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
