@@ -7,40 +7,31 @@
 html,body {
     width: 100%;
     height: 100%;
+    margin: 0;
     font-family: "Microsoft Yahei", "SimSun", Arial;
     font-size:12px;
     overflow:hidden;
 }
-body,h3,ul,li {
-    margin: 0;
-    padding: 0;
-}
-h3,th{
-    font-weight:normal;
-}
-ul li {
-    list-style-type: none;
-}
+li{list-style-type: none;}
 a{text-decoration: none;}
 .header{
     margin: 0px;
     color: #0075C7;
+    height: 32px;
+    width: 100%;
     line-height: 32px;
     float: left;
+    border-bottom: 1px solid #D9D9D9;
 }
-
 .mainBox {
-    width: 100%;
+    width: 200px;
     position: absolute;
-    top: 50px;
-    bottom: 0;
-    /*以上设置是重点必须的*/
-    margin:0;
+    margin-top:32px;
 }
 
 .mainBox .leftBox {
     height: 100%;
-    width: 150px;
+    width: 200px;
     float: left;
     overflow: auto;
     background: #f8f8ee;
@@ -52,7 +43,7 @@ a{text-decoration: none;}
 
 .menuItem a,.menuItem a:visited {
     padding-left: 20px;
-    width: 150px;
+    width: 200px;
     height: 32px;
     background-color: #f8f8f8;
     border-bottom: solid 1px #EAEAEA;
@@ -75,7 +66,6 @@ a{text-decoration: none;}
 .mainBox{
     height: 100%;
     margin-left: 0px;
-    /*以上设置是重点必须的*/
     padding-right: 1px;
     padding-left: 1px;
     border-left: 1px solid #E6E6E6;
@@ -83,6 +73,12 @@ a{text-decoration: none;}
     overflow: auto;
 }
 </style>
+    <script>
+        change_color = function () {
+            var d = document.getElementById(this.id);
+            d.style.backgroundColor = #000;
+        }
+    </script>
 </head>
 <body>
     <div class="header">
@@ -95,11 +91,14 @@ a{text-decoration: none;}
             <div class="menuItem" style="background-color:#67c1a5;height: 32px;line-height: 32px; ">
                 <strong>商品信息</strong>
             </div>
-            <div class="menuItem">
-                <a href="{% url 'cs_admin:list_goods' %}">商品列表</a>
+            <div class="menuItem" id="m1">
+                <a href="{% url 'cs_admin:list_goods' %}" id="a1" onmousedown="document.getElementById('a1').style.backgroundColor ='green'";>商品列表</a>
             </div>
             <div class="menuItem">
                 <a href="{% url 'cs_admin:add_goods' %}">添加商品</a>
+            </div>
+            <div class="menuItem">
+                <a href="{% url 'cs_admin:add_goods' %}">编辑商品</a>
             </div>
             <div class="menuItem" style="background-color:#67c1a5;height: 32px;line-height: 32px; ">
                 <strong>管理员信息</strong>
@@ -112,7 +111,7 @@ a{text-decoration: none;}
             </div>
         </div>
     </div>
-    <div id="content" style="height: 100%;margin-left: 200px">
+    <div id="content" style="height: 100%;margin-left: 230px">
         {% block content %}
         {% endblock %}
     </div>

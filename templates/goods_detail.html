@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div>
+        <form action="{% url 'order:add_cart' %}" method="GET" >
+            <table style="margin: 0 auto;font-size: 20px;">
+                <tr>
+                    <td>商品名称：</td>
+                    <td>{{ goods.goods_name }}</td>
+                </tr>
+                <tr>
+                    <td>生产厂家：</td>
+                    <td> {{ goods.goods_manufacturer }}</td>
+                </tr>
+                <tr>
+                    <td>价格：</td>
+                    <td>{{ goods.goods_price }}</td>
+                </tr>
+                <tr>
+                    <td>单位：</td>
+                    <td>{{ goods.goods_unit }}</td>
+                </tr>
+                <tr>
+                    <td>库存：</td>
+                    <td>{{ goods.goods_repertory }}</td>
+                </tr>
+                <tr>
+                    <td>商品分类：</td>
+                    <td>{{ goods.cag_id }}</td>
+                </tr>
+                <tr>
+                    <td>购买数量：</td>
+                    <td><input name="num" type="text"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <span style="display: none"><input name="gid" type="text" value="{{ goods.id }}"/></span>
+                        <input type="submit"  value="加入购物车" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+{% endblock %}

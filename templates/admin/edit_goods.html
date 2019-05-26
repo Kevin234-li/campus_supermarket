@@ -5,60 +5,56 @@
     <title>编辑商品</title>
 </head>
 <body>
-<section >
  <div >
-      <div >
        <h2 class="fl">编辑商品</h2>
-      </div>
  <form action="" method="post" >
      {% csrf_token %}
-     <section>
-      <ul class="">
-       <li>
-        <span class="item_name" style="width:120px;">商品名称：</span>
-        <input type="text" name="goods_name" class="textbox textbox_295" value="{{ goods.goods_name }}" />
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">货号：</span>
-        <input type="text" name="goods_num" class="textbox" value="{{ goods.goods_num }}" />
-       </li>
-        <li>
-        <span class="item_name" style="width:120px;">生产厂家：</span>
-        <input type="text" name="goods_manufacturer" class="textbox" value="{{ goods.goods_manufacturer }}" />
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">价格：</span>
-        <input type="text" name="goods_price" class="textbox" value="{{ goods.goods_price }}"/>
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">单位：</span>
-        <input type="text" name="goods_unit" class="textbox" value="{{ goods.goods_unit }}" />
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">库存：</span>
-        <input type="text" name="goods_repertory" class="textbox" value="{{ goods.goods_repertory }}"/>
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">商品分类：</span>
-        <select name="kind" class="select">
-            <option>零食</option>
-            <option>水果</option>
-            <option>日用品</option>
-            <option>文具</option>
-        </select>
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">上传商品图片：</span>
-         <input name="g_img" type="file"/>
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;"></span>
-        <input type="submit" class="link_btn" value="确定修改"/>
-       </li>
-      </ul>
-     </section>
+     <table>
+         <tr>
+             <td>商品名称：</td>
+             <td><input type="text" name="goods_name" class="textbox textbox_295" value="{{ goods.goods_name }}" /></td>
+         </tr>
+         <tr>
+             <td>货号：</td>
+             <td><input type="text" name="goods_num" class="textbox" value="{{ goods.goods_num }}" /></td>
+         </tr>
+          <tr>
+             <td>生产厂家：</td>
+             <td> <input type="text" name="goods_manufacturer" class="textbox" value="{{ goods.goods_manufacturer }}" /></td>
+         </tr>
+         <tr>
+             <td>价格：</td>
+             <td><input type="text" name="goods_price" class="textbox" value="{{ goods.goods_price }}"/></td>
+         </tr>
+         <tr>
+             <td>单位：</td>
+             <td><input type="text" name="goods_unit" class="textbox" value="{{ goods.goods_unit }}" /></td>
+         </tr>
+         <tr>
+             <td>库存：</td>
+             <td><input type="text" name="goods_repertory" class="textbox" value="{{ goods.goods_repertory }}"/></td>
+         </tr>
+         <tr>
+             <td>商品分类：</td>
+             <td>
+                 <select name="kind" class="select">
+                    <option>零食</option>
+                    <option>水果</option>
+                    <option>日用品</option>
+                    <option>文具</option>
+                </select>
+             </td>
+         </tr>
+         <tr>
+             <td>上传商品图片：</td>
+             <td><input name="g_img" type="file"/></td>
+         </tr>
+         <tr>
+             <td></td>
+             <td><input type="submit" class="link_btn" value="确定修改"/></td>
+         </tr>
+     </table>
  </form>
  </div>
-</section>
 </body>
 </html>

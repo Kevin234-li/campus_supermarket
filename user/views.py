@@ -2,10 +2,10 @@ from datetime import datetime, timedelta
 
 from django.contrib.auth.hashers import make_password, check_password
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse
-# Create your views here.
 from user.models import User
+# Create your views here.
 
 
 def login(request):
@@ -23,7 +23,9 @@ def login(request):
             user = User.objects.get(username=username)
             # 验证密码是否正确
             if check_password(password, user.password):
-                return HttpResponseRedirect(reverse('goods:index'))
+                request.session['user_id'] = user.id
+                redirect(reverse('goods:index'))
+                return render(request, 'index.html', {'user': user})
             else:
                 msg = '用户名或密码错误'
                 return render(request, 'login.html', {'msg': msg})
@@ -33,7 +35,12 @@ def login(request):
 
 
 def logout(request):
-    pass
+    try:
+        del request.session['user_id']
+    except:
+        pass
+    finally:
+        return redirect(reverse('user:login'))
 
 
 def register(request):

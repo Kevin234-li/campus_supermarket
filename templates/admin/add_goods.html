@@ -1,61 +1,57 @@
 {% extends 'admin/index2.html' %}
 {% block content %}
+    <style>
+        .textbox{border: solid 1px #139667;height: 26px;line-height: 26px;}
+        .left{height: 26px;line-height: 26px;width: 100px;text-align: right;font-size: 14px;}
+        .btn{height: 26px;line-height: 26px;width: 120px;background-color: #19a97b;font-size: 14px;}
+    </style>
 <h2 class="fl">添加商品</h2>
  <form action="" method="post" >
      {% csrf_token %}
-     <section>
-      <ul class="">
-       <li>
-        <span class="item_name" style="width:120px;">商品名称：</span>
-        <input type="text" name="goods_name" class="textbox textbox_295" placeholder="商品名称..." value=""/>
-        <!--<span class="errorTips">错误提示信息...</span>-->
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">货号：</span>
-        <input type="text" name="goods_num" class="textbox" placeholder="商品货号..." value=""/>
-        <!--<span class="errorTips">错误提示信息...</span>-->
-       </li>
-        <li>
-        <span class="item_name" style="width:120px;">生产厂家：</span>
-        <input type="text" name="goods_manufacturer" class="textbox" placeholder="生产厂家..." value=""/>
-        <!--<span class="errorTips">错误提示信息...</span>-->
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">价格：</span>
-        <input type="text" name="goods_price" class="textbox" placeholder="商品价格..." value=""/>
-        <!--<span class="errorTips">错误提示信息...</span>-->
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">单位：</span>
-        <input type="text" name="goods_unit" class="textbox" placeholder="商品单位..." value=""/>
-        <!--<span class="errorTips">错误提示信息...</span>-->
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">库存：</span>
-        <input type="text" name="goods_repertory" class="textbox" placeholder="商品库存..." value=""/>
-        <!--<span class="errorTips">错误提示信息...</span>-->
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">商品分类：</span>
-        <select name="kind" class="select">
-            <option>零食</option>
-            <option>水果</option>
-            <option>日用品</option>
-            <option>文具</option>
-        </select>
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;">上传商品图片：</span>
-        <!--<label class="uploadImg">-->
-         <input name="g_img" type="file"/>
-         <!--<span>上传商品图片</span>-->
-        <!--</label>-->
-       </li>
-       <li>
-        <span class="item_name" style="width:120px;"></span>
-        <input type="submit" class="link_btn" value="确定添加"/>
-       </li>
-      </ul>
-     </section>
+     <table>
+         <tr>
+             <td class="left">商品名称：</td>
+             <td><input type="text" name="goods_name" class="textbox" placeholder="商品名称..." /></td>
+         </tr>
+          <tr>
+             <td class="left">货号：</td>
+             <td><input type="text" name="goods_num" class="textbox" placeholder="商品货号..." /></td>
+         </tr>
+          <tr>
+             <td class="left">生产厂家：</td>
+             <td><input type="text" name="goods_manufacturer" class="textbox" placeholder="生产厂家..." /></td>
+         </tr>
+          <tr>
+             <td class="left">价格：</td>
+             <td><input type="text" name="goods_price" class="textbox" placeholder="商品价格..." /></td>
+         </tr>
+           <tr>
+             <td class="left">单位：</td>
+             <td><input type="text" name="goods_unit" class="textbox" placeholder="商品单位..." /></td>
+         </tr>
+         <tr>
+             <td class="left">库存：</td>
+             <td><input type="text" name="goods_repertory" class="textbox" placeholder="商品库存..." /></td>
+         </tr>
+         <tr>
+             <td class="left">商品分类：</td>
+             <td>
+               <select name="kind" class="select">
+                <option>零食</option>
+                <option>水果</option>
+                <option>日用品</option>
+                <option>文具</option>
+                </select>
+             </td>
+         </tr>
+         <tr>
+             <td class="left">上传商品图片：</td>
+             <td><input name="g_img" type="file"/></td>
+         </tr>
+         <tr>
+             <td></td>
+             <td ><input type="submit" class="btn" value="确定添加"/></td>
+         </tr>
+     </table>
  </form>
 {% endblock %}

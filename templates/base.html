@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     <link rel="stylesheet" type="text/css" href="/static/css/reset.css">
-    <title>Title</title>
+    <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
+<div style="position: relative;">
     <div class="top_con">
         <div class="top">
             <div class="fl">欢迎来到校园超市！</div>
@@ -25,24 +26,28 @@
                <span>|</span>
                 <a href="{% url 'user:profile' %}">用户中心</a>
                 <span>|</span>
-                <a href="{% url 'order:cart' %}">我的购物车</a>
+                <a href="{% url 'order:list_cart' %}">我的购物车</a>
                 <span>|</span>
-                <a href="{% url 'order:cart' %}">我的订单</a>
+                <a href="{% url 'order:list_order' %}">我的订单</a>
             </div>
         </div>
     </div>
     <div class="search_bar">
 		<a href="/goods/index/" class="fl"><img class="logo" src="/static/images/logo.png"></a>
 		<div class="search_con fl">
-			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
-			<input type="button" class="input_btn fr" name="" value="搜索">
+            <form action="{% url 'goods:show' %}">
+                <input type="text" class="input_text fl" name="content" placeholder="搜索商品">
+                <input type="submit" class="input_btn fr" name="" value="搜索">
+            </form>
 		</div>
 		<div class="cart fr">
-			<a href="/order/cart/" class="cart_con">我的购物车</a>
+			<a href="{% url 'order:list_cart' %}" class="cart_con">我的购物车</a>
 		</div>
 	</div>
-    {% block content %}{% endblock %}
-    <div class="footer" style="clear: both">
+    <div>
+        {% block content %}{% endblock %}
+    </div>
+    <div class="footer" style="clear: both;" >
 		<div class="foot_link">
 			<a href="#">关于我们</a>
 			<span>|</span>
@@ -55,5 +60,6 @@
 		<p>CopyRight © 2019 南京校园超市技术有限公司 All Rights Reserved</p>
 		<p>电话：025-****888    宁ICP备*******8号</p>
 	</div>
+</div>
 </body>
 </html>
