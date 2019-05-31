@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+    <style>
+        table{border:1px;border-collapse: collapse;margin: 0 auto;}
+        th{height: 40px;line-height: 40px;text-align: center}
+        td{height: 40px;line-height: 40px;width: 120px;text-align: center}
+        h1{font-size: 16px;margin-left: 190px}
+        #end{width: 150px;height: 61px;border:0px;background-color: #ff3d3d;font:30px bold 微软雅黑;float: right;
+            color: #FFFFFF;text-align: center;margin-bottom: 20px}
+        #total_pay, #num{font: 40px bold 微软雅黑;float: right;color: #ff1d2b;line-height: 61px;}
+        .bottom{background-color: #fff4e8;height: 61px;line-height: 61px;margin: 10px auto;}
+        .bottom_right{float: right;padding: 0px 7px;bottom: 10px;}
+    </style>
+        <div id="content"></div>
+        <div>
+            <table id="table" border="1" >
+                <tr>
+                    <th>商品id</th>
+                    <th>商品价格</th>
+                    <th>购买数量</th>
+                    <th>小计</th>
+                </tr>
+                {% for i in list %}
+                    <tr class="goods_item">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <form action="{% url "order:add_order" %}" id="upload" method="post">
+            <input type="text" name="text" style="display: none" >
+        </form>
+            <div class="bottom">
+                <button id="end" onclick="final_submit()"> 提交订单 </button>
+                <span class="bottom_right">合计：¥<label id="total_pay" style="padding-right: 20px"></label></span>
+                <span class="bottom_right">件商品</span><label id="num">{{ count }}</label><span class="bottom_right">共计</span>
+            </div>
+    <script>
+        var goods_items = document.getElementsByClassName("goods_item"),
+            total_pay = document.getElementById("total_pay");
+        var goodsArray = [];
+        for(let i = 0;i<{{ count }};i++){
+            let str = localStorage.getItem("goods"+i);
+            goodsArray.push(eval("("+str+")"));
+        }
+        window.onload = function(){
+            var sum = 0;
+            for(let i = 0;i<{{ count }};i++){
+                goods_items[i].children[0].innerHTML = goodsArray[i].id;
+                goods_items[i].children[1].innerHTML = goodsArray[i].price;
+                goods_items[i].children[2].innerHTML = goodsArray[i].num;
+                var t = parseFloat(goodsArray[i].price)*parseFloat(goodsArray[i].num);
+                goods_items[i].children[3].innerHTML = String(t);
+                sum += t;
+            }
+            total_pay.innerHTML = String(sum);
+        }
+        function final_submit() {
+            var t = document.getElementById("upload");
+            var goods = [];
+            for(let i = 0;i<{{ count }};i++){
+                goods.push(goodsArray[i]);
+            }
+            t.firstElementChild.value = JSON.stringify(goods);
+            t.submit();
+        }
+    </script>
+{% endblock %}

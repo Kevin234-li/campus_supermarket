@@ -5,45 +5,52 @@
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     <link rel="stylesheet" type="text/css" href="/static/css/reset.css">
     <title>{% block title %}{% endblock %}</title>
+    <style>
+        html,body{margin: 0;padding: 0}
+        .nav_table{border-collapse: collapse;width: 100%;font: 14px bold 微软雅黑;}
+        .nav{height: 40px;background-color: #00a0e9
+        }
+        th a{color: white}
+        .search_bar{}
+    </style>
 </head>
 <body>
-<div style="position: relative;">
-    <div class="top_con">
-        <div class="top">
-            <div class="fl">欢迎来到校园超市！</div>
-            <div class="fr">
-                {% if user.id %}
-                    欢迎您，{{ user.username }}
-                    <span>|</span>
-                    <a href="{% url 'user:logout' %}">退出</a>
-                {% else %}
-                    欢迎您，访客！
-                    <span>|</span>
-                    <a href="{% url 'user:login' %}">登录</a>
-                    <span>|</span>
-                    <a href="{% url 'user:register' %}">注册</a>
-                {% endif %}
-               <span>|</span>
-                <a href="{% url 'user:profile' %}">用户中心</a>
-                <span>|</span>
-                <a href="{% url 'order:list_cart' %}">我的购物车</a>
-                <span>|</span>
-                <a href="{% url 'order:list_order' %}">我的订单</a>
-            </div>
-        </div>
-    </div>
-    <div class="search_bar">
-		<a href="/goods/index/" class="fl"><img class="logo" src="/static/images/logo.png"></a>
-		<div class="search_con fl">
+    <div class="search_bar" style="height: 90px;width: 100%;margin-bottom: 0;background-color: #f8f8f8">
+		<a href="/goods/index/" class="fl" style="padding: 0 20px"><img class="logo" style="width:200px;height:100px;" src="/static/images/logo.png"></a>
+		<div class="search_bar" style="margin-left: 240px;float:left;padding: 30px 0">
             <form action="{% url 'goods:show' %}">
-                <input type="text" class="input_text fl" name="content" placeholder="搜索商品">
-                <input type="submit" class="input_btn fr" name="" value="搜索">
+                <input type="text" class="search" name="content" placeholder="搜索商品">
+                <input type="submit" class="input_btn" name="" value="搜索">
             </form>
 		</div>
-		<div class="cart fr">
-			<a href="{% url 'order:list_cart' %}" class="cart_con">我的购物车</a>
-		</div>
+        <span style="float: right;height: 90px;padding: 35px 0 0 0;margin-right: 45px;font: 14px bold 微软雅黑">
+            {% if user.id %}
+                您好，{{ user.username }}
+                <span>|</span>
+                <a href="{% url 'user:logout' %}">退出</a>
+            {% else %}
+                您好，访客！
+                <span>|</span>
+                <a href="{% url 'user:login' %}">登录</a>
+                <span>|</span>
+                <a href="{% url 'user:register' %}">注册</a>
+            {% endif %}
+        </span>
 	</div>
+    <div>
+        <table border="1" class="nav_table">
+            <tr>
+                <th class="nav"><a href="/goods/index/">首页</a></th>
+                <th class="nav"><a href="{% url 'order:list_cart' %}">我的购物车</a></th>
+                <th class="nav"><a href="{% url 'order:list_order' %}">我的订单</a></th>
+                <th class="nav"><a href="{% url 'user:profile' %}">个人中心</a></th>
+            </tr>
+        </table>
+    </div>
+    <div style="font: 16px bold 微软雅黑;padding: 10px 20px">
+        当前位置：<span id="position"></span>
+        <a href="{% url 'goods:index' %}" id="position">首页</a>
+    </div>
     <div>
         {% block content %}{% endblock %}
     </div>

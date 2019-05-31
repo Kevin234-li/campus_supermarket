@@ -10,6 +10,7 @@
         <h1>查询到{{ num }}条结果：</h1>
         <table border="1">
         <tr>
+            <th>商品图片</th>
             <th>商品名</th>
             <th>价格</th>
             <th>单位</th>
@@ -20,6 +21,7 @@
         </tr>
         {% for goods in goods_list %}
             <tr>
+                <td><img src="{{ MEDIA_URL}}{{goods.goods_img}}" alt="商品图片" style="max-width: 100px;max-height: 75px" /></td>
                 <td>{{ goods.goods_name }}</td>
                 <td>{{ goods.goods_price }}</td>
                 <td>{{ goods.goods_unit }}</td>

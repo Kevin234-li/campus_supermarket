@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 
-from django.contrib.auth.hashers import make_password, check_password
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
@@ -22,7 +21,7 @@ def login(request):
         if User.objects.filter(username=username).exists():
             user = User.objects.get(username=username)
             # 验证密码是否正确
-            if check_password(password, user.password):
+            if password == user.password:
                 request.session['user_id'] = user.id
                 redirect(reverse('goods:index'))
                 return render(request, 'index.html', {'user': user})
@@ -63,7 +62,6 @@ def register(request):
             }
             return render(request, 'register.html', data)
         # 加密password
-        password = make_password(password)
         # 创建用户并添加到数据库
         User.objects.create(username=username,
                             password=password,
@@ -73,13 +71,17 @@ def register(request):
 
 
 def profile(request):
-    return HttpResponse("Hello, Profile...")
+    user_id = request.session.get("user_id")
+    user = User.objects.get(id=user_id)
+    return render(request, 'usercenter.html', {"user": user})
 
 
-def cart(request):
-    return HttpResponse("Hello, my cart...")
-
-
-def order_history(request):
-    return HttpResponse("Hello, my order history...")
-
+def edit(request):
+    user_id = request.session.get("user_id")
+    user = User.objects.get(id=user_id)
+    user.password = request.POST.get("pwd")
+    user.phone = request.POST.get("phone")
+    user.email = request.POST.get("email")
+    user.direction = request.POST.get("direction")
+    user.save()
+    return render(request, 'usercenter.html',{"user": user})

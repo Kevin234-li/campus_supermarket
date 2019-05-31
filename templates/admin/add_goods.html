@@ -1,57 +1,38 @@
-{% extends 'admin/index2.html' %}
+{% extends 'admin/base.html' %}
+{% block title %}
+    添加商品
+{% endblock %}
 {% block content %}
     <style>
-        .textbox{border: solid 1px #139667;height: 26px;line-height: 26px;}
-        .left{height: 26px;line-height: 26px;width: 100px;text-align: right;font-size: 14px;}
-        .btn{height: 26px;line-height: 26px;width: 120px;background-color: #19a97b;font-size: 14px;}
+        .textbox{border: solid 1px #d9edf7;height: 30px;line-height: 30px;margin: 6px}
+        .inner_table td{height: 40px;line-height:40px;}
+        .btn{height: 35px;line-height: 35px;width: 120px;font:18px bold 微软雅黑;margin: 10px 140px}
+        .in input,select{width: 250px;margin: 6px 0}
     </style>
-<h2 class="fl">添加商品</h2>
- <form action="" method="post" >
-     {% csrf_token %}
-     <table>
-         <tr>
-             <td class="left">商品名称：</td>
-             <td><input type="text" name="goods_name" class="textbox" placeholder="商品名称..." /></td>
-         </tr>
-          <tr>
-             <td class="left">货号：</td>
-             <td><input type="text" name="goods_num" class="textbox" placeholder="商品货号..." /></td>
-         </tr>
-          <tr>
-             <td class="left">生产厂家：</td>
-             <td><input type="text" name="goods_manufacturer" class="textbox" placeholder="生产厂家..." /></td>
-         </tr>
-          <tr>
-             <td class="left">价格：</td>
-             <td><input type="text" name="goods_price" class="textbox" placeholder="商品价格..." /></td>
-         </tr>
-           <tr>
-             <td class="left">单位：</td>
-             <td><input type="text" name="goods_unit" class="textbox" placeholder="商品单位..." /></td>
-         </tr>
-         <tr>
-             <td class="left">库存：</td>
-             <td><input type="text" name="goods_repertory" class="textbox" placeholder="商品库存..." /></td>
-         </tr>
-         <tr>
-             <td class="left">商品分类：</td>
-             <td>
-               <select name="kind" class="select">
-                <option>零食</option>
-                <option>水果</option>
-                <option>日用品</option>
-                <option>文具</option>
-                </select>
-             </td>
-         </tr>
-         <tr>
-             <td class="left">上传商品图片：</td>
-             <td><input name="g_img" type="file"/></td>
-         </tr>
-         <tr>
-             <td></td>
-             <td ><input type="submit" class="btn" value="确定添加"/></td>
-         </tr>
-     </table>
- </form>
+    <h1 style="margin-left: 10px">添加商品</h1>
+     <form action="{% url 'cs_admin:add_goods' %}" method="post" enctype="multipart/form-data">
+         <div class="in" style="text-align: right;width: 400px;">
+             <label for="goods_name">商品名称：</label>
+             <input type="text" name="goods_name" id="goods_name" class="textbox" placeholder="商品名称..." /><br>
+             <label for="goods_num">货号：</label>
+             <input type="text" name="goods_num" id="goods_num" class="textbox" placeholder="货号..." /><br>
+             <label for="goods_manufacturer">生产厂家：</label>
+             <input type="text" name="goods_manufacturer" id="goods_manufacturer" class="textbox" placeholder="生产厂家..." /><br>
+             <label for="goods_price">价格：</label>
+             <input type="text" name="goods_price" id="goods_price" class="textbox" placeholder="价格..." /><br>
+             <label for="goods_unit">单位：</label>
+             <input type="text" name="goods_unit" id="goods_unit" class="textbox" placeholder="单位..." /><br>
+             <label for="goods_repertory">库存：</label>
+             <input type="text" name="goods_repertory" id="goods_repertory" class="textbox" placeholder="库存..." /><br>
+             <label for="kind">分类：</label>
+             <select name="kind" id="kind" class="textbox">
+                         {% for item in cags %}
+                            <option>{{ item.cag_name }}</option>
+                         {% endfor %}
+             </select><br>
+             <label for="g_img">上传图片：</label>
+             <input type="file" name="g_img" id="g_img"/><br>
+         </div>
+        <button class="btn">确定</button>
+     </form>
 {% endblock %}

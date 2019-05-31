@@ -15,7 +15,8 @@ class OrderInfo(models.Model):
 class OrderItem(models.Model):
     order_id = models.IntegerField()  # 订单id
     user_id = models.IntegerField()   # 用户id
-    goods = models.ForeignKey('goods.GoodsInfo', on_delete=models.CASCADE)
+    # goods = models.ForeignKey('goods.GoodsInfo', on_delete=models.CASCADE)
+    goods_id = models.IntegerField()
     goods_num = models.IntegerField()
     order_pay = models.BooleanField(default=False)                      # 付款属性
 

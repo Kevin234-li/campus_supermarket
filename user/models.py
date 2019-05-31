@@ -9,7 +9,7 @@ class User(models.Model):
     email = models.CharField(max_length=64, unique=True)         # 邮箱
     recipients = models.CharField(max_length=10, default='')     # 收件人姓名
     phone = models.CharField(max_length=11, default='')          # 收件人电话
-    addressee_p = models.CharField(max_length=6, default='')     # 收件人邮编
-    direction = models.CharField(max_length=100, default='')     # 收件人地址
+    # addressee_p = models.CharField(max_length=6, default='')     # 收件人邮编
+    direction = models.CharField(max_length=100, default='')     # 收货地址
     class Meta:
         db_table = 'user'

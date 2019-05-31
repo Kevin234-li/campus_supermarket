@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from django.urls import reverse
 
+from campus_supermarket.settings import MEDIA_URL
 from goods.models import GoodsInfo
 from user.models import User
 
@@ -21,7 +22,7 @@ def show(request):
     content = request.GET.get('content')
     result = GoodsInfo.objects.filter(Q(goods_name__icontains=content) | Q(goods_manufacturer__icontains=content))
     user = User.objects.get(id=request.session.get('user_id'))
-    return render(request, 'show.html', {'goods_list': result, 'user': user, 'num': len(result)})
+    return render(request, 'show.html', {'goods_list': result, 'user': user, 'num': len(result), 'MEDIA_URL': MEDIA_URL})
 
 
 def goods_detail(request):

@@ -13,7 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import django
 from django.conf.urls import url, include
+
+from campus_supermarket import settings
 from goods import views
 
 urlpatterns = [
@@ -22,4 +25,6 @@ urlpatterns = [
     url(r'^order/', include('order.urls', namespace='order')),
     url(r'^goods/', include('goods.urls', namespace='goods')),
     url(r'^index/', views.index),
+    url(r'^media/(?P<path>.*)$', django.views.static.serve, {'document_root': settings.MEDIA_ROOT}),
+
 ]

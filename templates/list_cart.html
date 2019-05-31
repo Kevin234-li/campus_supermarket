@@ -5,8 +5,8 @@
         th{height: 40px;line-height: 40px;text-align: center}
         td{height: 40px;line-height: 40px;width: 120px;text-align: center}
         h1{font-size: 16px;margin-left: 190px}
-        #end{width: 120px;height: 30px;padding:15px 0;background-color: #ff3d3d;font:30px bold 微软雅黑;float: right;
-            color: #FFFFFF;text-align: center;margin-bottom: 20px}
+        #end{width: 120px;height: 60px;line-height:60px;iborder:0px;background-color: #ff3d3d;font:30px bold 微软雅黑;float: right;
+            color: #e9f0d8;text-align: center;padding: auto;}
         #total_pay, #num{font: 40px bold 微软雅黑;float: right;color: #ff1d2b;line-height: 61px;}
         .bottom{background-color: #fff4e8;height: 61px;line-height: 61px;margin: 10px auto;}
         .bottom_right{float: right;padding: 0px 7px;bottom: 10px;}
@@ -17,6 +17,7 @@
             <table border="1">
             <tr>
                 <th></th>
+                <th>商品图片</th>
                 <th>商品名称</th>
                 <th>商品价格</th>
                 <th>单位</th>
@@ -26,19 +27,20 @@
             </tr>
             {% for goods in goods_list %}
                 <tr>
-                    <td><input type="checkbox" class="check_item" onclick="check(this)"/></td>
+                    <td><input type="checkbox" class="check_item"  onclick="check(this)"/></td>
+                    <td><img src="{{ MEDIA_URL}}{{goods.goods_img}}" alt="商品图片" style="max-width: 100px;max-height: 75px" /></td>
                     <td>{{ goods.goods_name }}</td>
                     <td>{{ goods.goods_price }}</td>
                     <td>{{ goods.goods_unit }}</td>
-                    <td><button onclick="sub(this)">-</button><span>{{ goods.num }}</span><button onclick="add(this)">+</button></td>
+                    <td><button type="button" onclick="sub(this)">-</button><span>{{ goods.num }}</span><button type="button" onclick="add(this)">+</button></td>
                     <td class="money"></td>
                     <td><a href="{% url 'order:delete_cart' %}/?id={{ goods.item_id }}">删除</a></td>
                 </tr>
             {% endfor %}
             </table>
             <div class="bottom">
-                <span style="padding-left: 190px;"><input type="checkbox" id="checkAllBox" onclick="checkAllBox(this)"/>全选</span>
-                <a id="end" href="{% url 'order:add_order' %}">去结算</a>
+                <span style="padding-left: 190px;"><input type="checkbox" id="all_box" onclick="checkAllBox(this)"/>全选</span>
+                <button  id="end"  onclick="save()">去结算</button>
                 <span class="bottom_right">合计：¥<label id="total_pay" style="padding-right: 20px"></label></span>
                 <span class="bottom_right">件商品</span><label id="num"></label><span class="bottom_right">共计</span>
             </div>
@@ -48,39 +50,51 @@
             您的购物车是空的！
         </div>
     {% endif %}
-
+    <form action="{% url "order:add_order" %}" id="form0" style="display: none">
+        <input type="text" name="count">
+    </form>
     <script>
+        var n = 0;
+        var checkboxs = document.getElementsByClassName("check_item"),
+            num = document.getElementById("num"),
+            form0 = document.getElementById("form0"),
+            money = document.getElementsByClassName("money"),
+            all = document.getElementById("all_box"),
+            total_pay = document.getElementById("total_pay");
+        var url = "{% url "order:add_order" %}?num=";
+        var goodsArray = new Array();
+        {% for goods in goods_list %}
+            goodsArray[n] = {"id": {{ goods.id }}, "price":{{ goods.goods_price }}, "num": {{ goods.num }}, "checked": true};
+            n++;
+        {% endfor %}
         window.onload=function () {
-            var money = document.getElementsByClassName("money"),
-                c = document.getElementById("checkAllBox");
-            c.checked=true;
-            for(i = 0;i<money.length;i++){
-                var price = money[i].parentElement.children[2],
-                    num = money[i].previousElementSibling.children[1];
-                price = parseFloat(price.innerHTML);
-                num = parseInt(num.innerHTML);
-                money[i].innerHTML = price * num;
-                money[i].parentElement.children[0].children[0].checked=true;
+            all.checked=true;
+            for(let i = 0;i<n;i++){
+                money[i].innerHTML = String(parseFloat(goodsArray[i].price) * parseFloat(goodsArray[i].num));
+                checkboxs[i].checked=true;
+                checkboxs[i].id= String(i);
             }
-            total_pay();
-            var num = document.getElementById("num")
-            num.innerHTML = money.length;
+            get_total_pay();
+            num.innerHTML = String(n);
+
         }
         function sub(that) {
             var text = that.nextElementSibling;
             num = parseInt(text.innerHTML);
             if(num>1){
                 text.innerHTML = num-1;
+                goodsArray[parseInt(that.parentElement.parentElement.firstElementChild.firstElementChild.id)].num = num-1;
             }
             sum(that);
-            total_pay();
+            get_total_pay();
         }
         function add(that) {
             var text = that.previousElementSibling;
             num = parseInt(text.innerHTML);
             text.innerHTML = num+1;
+            goodsArray[parseInt(that.parentElement.parentElement.firstElementChild.firstElementChild.id)].num = num+1;
             sum(that);
-            total_pay();
+            get_total_pay();
         }
         function sum(that) {
             var money = that.parentElement.nextElementSibling;
@@ -91,50 +105,62 @@
             money.innerHTML = parseFloat(num * price);
         }
         function checkAllBox(that) {
-            var checkboxs = document.getElementsByClassName("check_item"),
-                num = document.getElementById("num");
             if(that.checked){
-                for(i = 0;i<checkboxs.length;i++){
+                for(let i = 0;i<n;i++){
                     checkboxs[i].checked = true;
+                    goodsArray[i].checked = true;
                 }
-                num.innerHTML = checkboxs.length;
+                num.innerHTML = String(checkboxs.length);
             }
             else{
-                for(i = 0;i<checkboxs.length;i++){
+                for(let i = 0;i<n;i++){
                     checkboxs[i].checked = false;
+                    goodsArray[i].checked = false;
                 }
-                num.innerHTML = 0;
+                num.innerHTML = String(0);
             }
-            total_pay();
+            total_pay.href = url + num.innerHTML;
+            console.log(total_pay.href)
+            get_total_pay();
         }
         function check(that) {
-            var checkboxs = document.getElementsByClassName("check_item");
-            var c = document.getElementById("checkAllBox"),
-                num = document.getElementById("num");
             if(that.checked)
-                num.innerHTML = parseInt(num.innerHTML) + 1;
-            else
-                num.innerHTML = parseInt(num.innerHTML) - 1;
-            for (i = 0;i<checkboxs.length;i++){
+                num.innerHTML = String(parseInt(num.innerHTML) + 1);
+            else {
+                num.innerHTML = String(parseInt(num.innerHTML) - 1);
+            }
+            total_pay.href = url + num.innerHTML;
+            console.log(total_pay.href)
+            goodsArray[parseInt(that.id)].checked = that.checked;
+            get_total_pay();
+            for (let i = 0;i<n;i++){
                 if(!checkboxs[i].checked){
-                    c.checked=false;
-                    total_pay();
+                    all.checked=false;
                     return;
                 }
             }
-            c.checked=true;
-            total_pay();
+            all.checked=true;
         }
-        function total_pay() {
-            var money = document.getElementsByClassName("money"),
-                total_pay = document.getElementById("total_pay");
+        function get_total_pay() {
             var sum = 0;
-            for(i = 0;i<money.length;i++){
-                if(money[i].parentElement.firstElementChild.firstElementChild.checked){
+            for(i = 0;i<n;i++){
+                if(checkboxs[i].checked){
                     sum += parseFloat(money[i].innerHTML);
                 }
             }
             total_pay.innerHTML = sum;
+        }
+        function save() {
+            form0.firstElementChild.value = num.innerHTML;
+            let t = 0;
+            for (let i = 0;i<n;i++){
+                if(goodsArray[i].checked){
+                    let str = JSON.stringify(goodsArray[i]);
+                    localStorage.setItem("goods"+t, str);
+                    t++;
+                }
+            }
+            form0.submit();
         }
     </script>
 {% endblock %}

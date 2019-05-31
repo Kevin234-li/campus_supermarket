@@ -1,7 +1,10 @@
-{% extends 'admin/index2.html' %}
+{% extends 'admin/base.html' %}
+{% block title %}
+管理员列表
+{% endblock %}
 {% block content %}
 <h2 class="fl">管理员列表</h2>
-    <table border="2">
+    <table border="1" style="border-collapse: collapse">
         <tr>
             <td>编号</td>
             <td>用户名</td>

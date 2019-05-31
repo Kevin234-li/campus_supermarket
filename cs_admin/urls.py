@@ -9,7 +9,6 @@ urlpatterns = [
     url(r'^login/', views.login, name='login'),
     # 后台首页
     url(r'^index/', views.index, name='index'),
-    url(r'^index2/', views.index2, name='index2'),
     # 商品列表
     url(r'^list_goods/', views.list_goods, name='list_goods'),
     # 增加商品

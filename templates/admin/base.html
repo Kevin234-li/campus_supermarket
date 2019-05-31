@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title%}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+</head>
+<body>
+    <div class="header">
+        <img class="logo" src="/static/images/logo.png" alt="logo">
+        <div class="search">
+            <form action="">
+                <input type="text" placeholder="搜索内容..."/>
+                <button>搜索</button>
+            </form>
+        </div>
+        <div id="top_right">
+            {% if user.id %}
+                您好，{{ user.username }}
+                <span>|</span>
+                <a href="{% url 'user:logout' %}">退出</a>
+            {% else %}
+                您好，访客！
+                <span>|</span>
+                <a href="{% url 'user:login' %}">登录</a>
+                <span>|</span>
+                <a href="{% url 'user:register' %}">注册</a>
+            {% endif %}
+        </div>
+	</div>
+    <div class="content">
+        <div class="left">
+            <ul>
+               <li class="first">
+                   <strong>商品信息</strong>
+                   <ul>
+                       <li class="second">商品列表</li>
+                       <li class="second">添加商品</li>
+                       <li class="second">编辑商品</li>
+                       <li class="second">分类管理</li>
+                   </ul>
+               </li>
+                <li class="first">
+                    <strong>管理员信息</strong>
+                    <ul>
+                        <li class="second">管理员列表</li>
+                        <li class="second">添加管理员</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="right">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    <div class="footer">
+        <div class="foot_link">
+			<a href="#">关于我们</a>
+			<span>|</span>
+			<a href="#">联系我们</a>
+			<span>|</span>
+			<a href="#">招聘人才</a>
+			<span>|</span>
+			<a href="#">友情链接</a>
+		</div>
+		<p>CopyRight © 2019 南京校园超市技术有限公司 All Rights Reserved</p>
+		<p>电话：025-****888    宁ICP备*******8号</p>
+    </div>
+    <script>
+        var items = document.getElementsByClassName("second");
+        var logo = document.getElementsByClassName("logo")[0];
+        var urls = new Array("{% url 'cs_admin:list_goods' %}", "{% url 'cs_admin:add_goods' %}",
+                            "{% url 'cs_admin:add_goods' %}", "{% url 'cs_admin:edit_goods' %}", "{% url 'cs_admin:list_admin' %}",
+                            "{% url 'cs_admin:add_admin' %}")
+        for (let i = 0;i<items.length;i++){
+            items[i].onclick = function () {
+                location = urls[i];
+            }
+        }
+        logo.onclick = function () {
+            location = urls[0];
+        }
+
+    </script>
+</body>
+</html>
