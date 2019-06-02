@@ -9,7 +9,7 @@ from user.models import User
 
 def login(request):
     if request.method == 'GET':
-        return render(request, 'login.html')
+        return render(request, 'user/login.html')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('pwd')
@@ -24,13 +24,13 @@ def login(request):
             if password == user.password:
                 request.session['user_id'] = user.id
                 redirect(reverse('goods:index'))
-                return render(request, 'index.html', {'user': user})
+                return render(request, 'user/index.html', {'user': user})
             else:
                 msg = '用户名或密码错误'
-                return render(request, 'login.html', {'msg': msg})
+                return render(request, 'user/login.html', {'msg': msg})
         else:
             msg = '用户名不存在,请注册后再登陆'
-            return render(request, 'login.html', {'msg': msg})
+            return render(request, 'user/login.html', {'msg': msg})
 
 
 def logout(request):
@@ -44,36 +44,27 @@ def logout(request):
 
 def register(request):
     if request.method == 'GET':
-        return render(request, 'register.html')
+        return render(request, 'user/register.html')
     if request.method == 'POST':
-        username = request.POST.get('user_name')
-        password = request.POST.get('pwd')
-        password_c = request.POST.get('cpwd')
-        email = request.POST.get('email')
-        # 验证参数都不能为空
-        if not all([username, password, password_c, email]):
-            data = {
-                'msg': '请填写完整的信息'
-            }
-            return render(request, 'register.html', data)
-        if password != password_c:
-            data = {
-                'msg': '两次密码不一致'
-            }
-            return render(request, 'register.html', data)
-        # 加密password
-        # 创建用户并添加到数据库
-        User.objects.create(username=username,
-                            password=password,
-                            email=email)
-        # 注册成功跳转到登陆页面
-        return HttpResponseRedirect(reverse('user:login'))
+        user = User()
+        user.username = request.POST.get('username')
+        user.password = request.POST.get('pwd')
+        user.email = request.POST.get("email")
+        u = User.objects.filter(username=user.username)
+        e = User.objects.filter(email=user.email)
+        if u:
+            return render(request, 'user/register.html', {'msg1': "用户名已存在！"})
+        elif e:
+            return render(request, 'user/register.html', {'msg2': "邮箱已被占用！"})
+        else:
+            user.save()
+            return redirect(reverse('user:login'))
 
 
 def profile(request):
     user_id = request.session.get("user_id")
     user = User.objects.get(id=user_id)
-    return render(request, 'usercenter.html', {"user": user})
+    return render(request, 'user/usercenter.html', {"user": user})
 
 
 def edit(request):
@@ -84,4 +75,29 @@ def edit(request):
     user.email = request.POST.get("email")
     user.direction = request.POST.get("direction")
     user.save()
-    return render(request, 'usercenter.html',{"user": user})
+    return render(request, 'user/usercenter.html', {"user": user})
+
+
+def basic_info(request):
+    if request.method == 'GET':
+        user = User.objects.get(id=request.session.get('user_id'))
+        return render(request, 'user/basic_info.html', {'user': user})
+    elif request.method == 'POST':
+        pass
+
+
+def account_security(request):
+    if request.method == 'GET':
+        user = User.objects.get(id=request.session.get('user_id'))
+        return render(request, 'user/account_security.html', {'user': user})
+    elif request.method == 'POST':
+        pass
+
+
+def address(request):
+    if request.method == 'GET':
+        user = User.objects.get(id=request.session.get('user_id'))
+        return render(request, 'user/address.html', {'user': user})
+    elif request.method == 'POST':
+        pass
+

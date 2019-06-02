@@ -1,0 +1,53 @@
+{% extends 'user/base.html' %}
+{% block title %}搜索商品{% endblock %}
+{% block content %}
+    <style>
+        table{border-collapse: collapse;margin: 0 auto;}
+        th,td{height: 40px;line-height: 40px;width: 120px;text-align: center;border: solid 1px #D9EDF7;}
+        h1{font-size: 16px;margin-left: 200px}
+    </style>
+    <div style="margin: 0 auto">
+        <h1>为您找到{{ num }}件商品：</h1>
+        <table border="1">
+        <tr>
+            <th>商品图片</th>
+            <th>商品名</th>
+            <th>价格</th>
+            <th>库存</th>
+            <th>生产商</th>
+            <th>分类</th>
+            <th>操作</th>
+        </tr>
+        {% for goods in goods_list %}
+            <tr>
+                <td>
+                    <a href="{% url 'goods:goods_detail' %}?gid={{ goods.id }}">
+                        <img src="{{ MEDIA_URL}}{{goods.goods_img}}" alt="商品图片" style="max-width: 100px;max-height: 75px" />
+                    </a>
+                </td>
+                <td>{{ goods.goods_name }}</td>
+                <td>{{ goods.goods_price }}/{{ goods.goods_unit }}</td>
+                <td>{{ goods.goods_repertory }}</td>
+                <td>{{ goods.goods_manufacturer }}</td>
+                <td>{{ goods.cag.cag_name }}</td>
+                <td><a href="{% url 'goods:goods_detail' %}?gid={{ goods.id }}">加入购物车</a></td>
+            </tr>
+        {% endfor %}
+        </table>
+        <div style="text-align: center;margin: 5px">
+        {% if goods_list.has_previous %}
+            <a href="{% url 'goods:show' %}?page_num={{ goods_list.previous_page_number }}">上一页</a>
+        {% endif %}
+            {% for i in goods_list.paginator.page_range %}
+                {% if i == goods_list.number %}
+                    <a href="{% url 'goods:show' %}?page_num={{ i }}" style="font-size: 30px;padding: 0 10px">{{ i}}</a>
+                {% else %}
+                    <a href="{% url 'goods:show' %}?page_num={{ i }}" style="font-size: 20px;padding: 0 10px">{{ i }}</a>
+                {% endif %}
+            {% endfor %}
+        {% if goods_list.has_next %}
+            <a href="{% url 'goods:show' %}?page_num={{ goods_list.next_page_number }}">下一页</a>
+        {% endif %}
+        </div>
+    </div>
+{% endblock %}

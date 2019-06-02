@@ -14,4 +14,7 @@ urlpatterns = [
     url(r'profile/', views.profile, name='profile'),
     # 编辑
     url(r'edit/', views.edit, name='edit'),
+    url(r'basic_info/', views.basic_info, name='basic_info'),
+    url(r'account_security/', views.account_security, name='account_security'),
+    url(r'address/', views.address, name='address'),
 ]

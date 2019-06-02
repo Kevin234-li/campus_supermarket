@@ -1,0 +1,49 @@
+html,body{margin: 0;padding: 0;height: 100%}
+body{overflow-y: scroll;padding-bottom: 10px}
+a{text-decoration: none;color: black}
+a:hover{color: #3b99fc;}
+li{list-style: none}
+.header{
+    height:60px;
+    width:100%;
+    background-color: #f8f8f8;
+    display: inline-block;
+    border-bottom: solid 1px #dedede;
+}
+.logo{height: 80px;margin: 0 20px 0 50px;float: left;cursor: pointer}
+.search{
+    width: 500px;
+    height: 20px;
+    margin-left: 200px;
+    padding: 12px 0;
+    display: inline-block;
+}
+.search_input{width: 300px;height: 30px;float: left;border: solid 1px #D9EDF7}
+.search_btn{float: left;height: 32px;width: 80px;margin-left: 7px}
+#top_right{
+    float: right;
+    height: 60px;
+    padding: 20px 0;
+    margin-right: 45px;
+    font: 14px bold 微软雅黑;
+}
+.sep{padding: 0 5px}
+#top_right a:hover{color: #3b99fc;}
+.nav_div{background-color: #3b99fc;height: 40px;margin-top: 1px;}
+.nav{width: 1200px;margin: 0 auto;padding: 0;height: 40px;}
+.nav_item{
+    display: inline-block;
+    text-align: center;
+    width:290px;
+    height: 40px;
+    line-height: 40px;
+    color: white;
+    cursor: pointer;
+}
+.nav_item:hover{background-color: #3685f1}
+.footer{border-top:2px solid #428bca;margin:10px 0;clear: both;width: 100%}
+.foot_link{text-align:center;margin-top:30px;}
+.foot_link a,.foot_link span{color:#4e4e4e;}
+.foot_link a:hover{color:#ff8800}
+.foot_link span{padding:0 10px}
+.footer p{text-align:center; margin-top:10px;}

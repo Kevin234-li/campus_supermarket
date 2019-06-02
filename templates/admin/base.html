@@ -4,36 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title%}{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/admin.css' %}">
 </head>
 <body>
     <div class="header">
         <img class="logo" src="/static/images/logo.png" alt="logo">
         <div class="search">
             <form action="">
-                <input type="text" placeholder="搜索内容..."/>
-                <button>搜索</button>
+                <input type="text" class="search_input" placeholder="搜索内容..."/>
+                <button class="search_btn">搜索</button>
             </form>
         </div>
         <div id="top_right">
             {% if user.id %}
                 您好，{{ user.username }}
-                <span>|</span>
+                <span class="sep">|</span>
                 <a href="{% url 'user:logout' %}">退出</a>
             {% else %}
                 您好，访客！
-                <span>|</span>
+                <span class="sep">|</span>
                 <a href="{% url 'user:login' %}">登录</a>
-                <span>|</span>
+                <span class="sep">|</span>
                 <a href="{% url 'user:register' %}">注册</a>
             {% endif %}
         </div>
 	</div>
-    <div class="content">
+    <div class="content" style="min-height: 65%">
         <div class="left">
             <ul>
                <li class="first">
-                   <strong>商品信息</strong>
+                   <div style="border-bottom:solid 1px #3685f1;margin-top: 30px;text-align: center"><strong>商品信息</strong></div>
                    <ul>
                        <li class="second">商品列表</li>
                        <li class="second">添加商品</li>
@@ -42,7 +42,7 @@
                    </ul>
                </li>
                 <li class="first">
-                    <strong>管理员信息</strong>
+                    <div style="border-bottom:solid 1px #3685f1;margin-top: 30px;text-align: center"><strong>管理员信息</strong></div>
                     <ul>
                         <li class="second">管理员列表</li>
                         <li class="second">添加管理员</li>
@@ -72,11 +72,12 @@
         var items = document.getElementsByClassName("second");
         var logo = document.getElementsByClassName("logo")[0];
         var urls = new Array("{% url 'cs_admin:list_goods' %}", "{% url 'cs_admin:add_goods' %}",
-                            "{% url 'cs_admin:add_goods' %}", "{% url 'cs_admin:edit_goods' %}", "{% url 'cs_admin:list_admin' %}",
-                            "{% url 'cs_admin:add_admin' %}")
+                            "{% url 'cs_admin:add_goods' %}", "{% url 'cs_admin:list_cag' %}",
+                            "{% url 'cs_admin:list_admin' %}","{% url 'cs_admin:add_admin' %}");
         for (let i = 0;i<items.length;i++){
             items[i].onclick = function () {
                 location = urls[i];
+                items[i].style.backgroundColor="red"
             }
         }
         logo.onclick = function () {

@@ -1,0 +1,21 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block title %}校园超市-登录{% endblock %}
+{% block content %}
+    <form action="{% url 'user:login'%}" method="POST">
+        <table style="margin: 0px auto;padding: 50px 0">
+            <tr>
+                <td><label for="username">用户名：</label></td>
+                <td><input type="text" name="username"></td>
+            </tr>
+            <tr>
+                <td><label for="pwd">密码：</label></td>
+                <td><input type="text" name="pwd"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button>登录</button></td>
+            </tr>
+        </table>
+    </form>
+{% endblock %}

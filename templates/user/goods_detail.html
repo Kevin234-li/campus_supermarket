@@ -1,0 +1,61 @@
+{% extends 'user/base.html' %}
+{% block title %}商品详情{% endblock %}
+{% block content %}
+    <style>
+        #form2 td{margin: 50px 0;padding: 9px 0;}
+    </style>
+    <div>
+        <img src="{{ MEDIA_URL}}{{goods.goods_img}}"  alt="商品图片" style="float: left;max-width: 400px;max-height: 300px;margin-left: 200px">
+    </div>
+    <div style="margin: 30px 0 0 400px;width: 600px;">
+        <form action="{% url 'order:add_cart' %}" method="GET" id="form2">
+            <table style="margin: 0 auto;font-size: 20px;">
+                <tr>
+                    <td>商品名称：</td>
+                    <td>{{ goods.goods_name }}</td>
+                </tr>
+                <tr>
+                    <td>生产厂家：</td>
+                    <td> {{ goods.goods_manufacturer }}</td>
+                </tr>
+                <tr>
+                    <td>价格：</td>
+                    <td>{{ goods.goods_price }} / {{ goods.goods_unit }}</td>
+                </tr>
+                <tr>
+                    <td>库存：</td>
+                    <td id="left">{{ goods.goods_repertory }}</td>
+                </tr>
+                <tr>
+                    <td>商品分类：</td>
+                    <td>{{ goods.cag_id }}</td>
+                </tr>
+                <tr>
+                    <td>购买数量：</td>
+                    <td><input name="num" id="num" type="text" style="border: solid 1px #D9EDF7;height: 25px"/></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <span style="display: none"><input name="gid" type="text" value="{{ goods.id }}"/></span>
+                        <input type="button"  id="btn" style="height: 30px;padding: 0 20px;" value="加入购物车" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <script>
+        var btn = document.getElementById("btn"),
+            num = document.getElementById("num"),
+            left = document.getElementById("left"),
+            form2 = document.getElementById("form2");
+        btn.onclick = function () {
+            if(parseInt(num.value) > parseInt(left.innerHTML)){
+                alert("对不起，库存不足！请减少购买数量或待货源充足时再购买")
+            }
+            else{
+                form2.submit();
+            }
+        }
+    </script>
+{% endblock %}

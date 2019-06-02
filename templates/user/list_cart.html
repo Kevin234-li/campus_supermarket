@@ -1,20 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'user/base.html' %}
+{% block title %}我的购物车{% endblock %}
 {% block content %}
     <style>
         table{border-collapse: collapse;margin: 0 auto;}
-        th{height: 40px;line-height: 40px;text-align: center}
-        td{height: 40px;line-height: 40px;width: 120px;text-align: center}
-        h1{font-size: 16px;margin-left: 190px}
+        th,td{height: 40px;line-height: 40px;width: 120px;text-align: center;}
+        th{border-bottom: solid 1px #c9c9c9;}
+        h1{font-size: 16px;margin-left: 140px}
         #end{width: 120px;height: 60px;line-height:60px;iborder:0px;background-color: #ff3d3d;font:30px bold 微软雅黑;float: right;
             color: #e9f0d8;text-align: center;padding: auto;}
-        #total_pay, #num{font: 40px bold 微软雅黑;float: right;color: #ff1d2b;line-height: 61px;}
-        .bottom{background-color: #fff4e8;height: 61px;line-height: 61px;margin: 10px auto;}
+        #total_pay, #total_num{font: 40px bold 微软雅黑;float: right;color: #ff1d2b;line-height: 61px;}
+        .bottom{background-color: #fff4e8;height: 61px;line-height: 61px;margin: 10px auto;width: 1000px}
         .bottom_right{float: right;padding: 0px 7px;bottom: 10px;}
     </style>
     {% if num != 0 %}
-        <h1>全部商品{{ num }}件</h1>
-        <div style="margin: 10px auto;">
-            <table border="1">
+        <div style="margin: 30px auto;min-height: 240px">
+            <table>
+            <thead>
             <tr>
                 <th></th>
                 <th>商品图片</th>
@@ -25,10 +26,12 @@
                 <th>小计</th>
                 <th>操作</th>
             </tr>
+            </thead>
+            <tbody>
             {% for goods in goods_list %}
                 <tr>
                     <td><input type="checkbox" class="check_item"  onclick="check(this)"/></td>
-                    <td><img src="{{ MEDIA_URL}}{{goods.goods_img}}" alt="商品图片" style="max-width: 100px;max-height: 75px" /></td>
+                    <td><img src="{{ MEDIA_URL}}{{goods.goods_img}}" alt="商品图片" style="max-width: 100px;max-height: 100px" /></td>
                     <td>{{ goods.goods_name }}</td>
                     <td>{{ goods.goods_price }}</td>
                     <td>{{ goods.goods_unit }}</td>
@@ -37,26 +40,28 @@
                     <td><a href="{% url 'order:delete_cart' %}/?id={{ goods.item_id }}">删除</a></td>
                 </tr>
             {% endfor %}
+            </tbody>
             </table>
-            <div class="bottom">
-                <span style="padding-left: 190px;"><input type="checkbox" id="all_box" onclick="checkAllBox(this)"/>全选</span>
-                <button  id="end"  onclick="save()">去结算</button>
-                <span class="bottom_right">合计：¥<label id="total_pay" style="padding-right: 20px"></label></span>
-                <span class="bottom_right">件商品</span><label id="num"></label><span class="bottom_right">共计</span>
-            </div>
         </div>
+            <div class="bottom">
+                <span style="float: left;padding-left: 20px"><input type="checkbox" id="all_box" onclick="checkAllBox(this)"/>全选</span>
+                <button  id="end"  onclick="save()">去结算</button>
+                <span class="bottom_right">合计：¥<label id="total_pay" style="padding-right: 20px;padding-left: 5px"></label></span>
+                <span class="bottom_right">件商品</span><label id="total_num"></label><span class="bottom_right">共</span>
+            </div>
     {% else %}
-        <div style="height:300px;margin: 0 auto">
+        <div style="height:300px;width:100%;margin: 0 auto;text-align: center;line-height: 300px;">
             您的购物车是空的！
         </div>
     {% endif %}
-    <form action="{% url "order:add_order" %}" id="form0" style="display: none">
-        <input type="text" name="count">
+    <form action="{% url "order:add_order" %}" id="form0" method="post" style="display: none">
+        <input type="text" name="text" style="display: none" >
+        <input type="text" name="status" value="0">
     </form>
     <script>
         var n = 0;
         var checkboxs = document.getElementsByClassName("check_item"),
-            num = document.getElementById("num"),
+            total_num = document.getElementById("total_num"),
             form0 = document.getElementById("form0"),
             money = document.getElementsByClassName("money"),
             all = document.getElementById("all_box"),
@@ -69,21 +74,24 @@
         {% endfor %}
         window.onload=function () {
             all.checked=true;
+            let sum = 0;
             for(let i = 0;i<n;i++){
-                money[i].innerHTML = String(parseFloat(goodsArray[i].price) * parseFloat(goodsArray[i].num));
+                sum += parseInt(goodsArray[i].num)
+                money[i].innerHTML = String(parseFloat(goodsArray[i].price) * parseInt(goodsArray[i].num));
                 checkboxs[i].checked=true;
                 checkboxs[i].id= String(i);
             }
             get_total_pay();
-            num.innerHTML = String(n);
+            total_num.innerHTML = String(sum);
 
         }
         function sub(that) {
             var text = that.nextElementSibling;
             num = parseInt(text.innerHTML);
             if(num>1){
-                text.innerHTML = num-1;
+                text.innerHTML = String(num-1);
                 goodsArray[parseInt(that.parentElement.parentElement.firstElementChild.firstElementChild.id)].num = num-1;
+                total_num.innerHTML = String(parseInt(total_num.innerHTML)-1)
             }
             sum(that);
             get_total_pay();
@@ -93,16 +101,17 @@
             num = parseInt(text.innerHTML);
             text.innerHTML = num+1;
             goodsArray[parseInt(that.parentElement.parentElement.firstElementChild.firstElementChild.id)].num = num+1;
+            total_num.innerHTML = String(parseInt(total_num.innerHTML)+1)
             sum(that);
             get_total_pay();
         }
         function sum(that) {
-            var money = that.parentElement.nextElementSibling;
-            var price = that.parentElement.previousElementSibling.previousElementSibling.innerHTML;
-            var num = that.parentElement.children[1];
+            let money = that.parentElement.nextElementSibling,
+                price = that.parentElement.previousElementSibling.previousElementSibling.innerHTML,
+                num = that.parentElement.children[1];
             price = parseFloat(price);
             num = parseInt(num.innerHTML);
-            money.innerHTML = parseFloat(num * price);
+            money.innerHTML = String(parseFloat(String(num * price)));
         }
         function checkAllBox(that) {
             if(that.checked){
@@ -110,27 +119,31 @@
                     checkboxs[i].checked = true;
                     goodsArray[i].checked = true;
                 }
-                num.innerHTML = String(checkboxs.length);
+                let sum = 0;
+                for(let i = 0;i<n;i++){
+                    if(checkboxs[i].checked){
+                        sum += parseInt(goodsArray[i].num)
+                    }
+                }
+                total_num.innerHTML = String(sum);
             }
             else{
                 for(let i = 0;i<n;i++){
                     checkboxs[i].checked = false;
                     goodsArray[i].checked = false;
                 }
-                num.innerHTML = String(0);
+                total_num.innerHTML = String(0);
             }
-            total_pay.href = url + num.innerHTML;
-            console.log(total_pay.href)
             get_total_pay();
         }
         function check(that) {
+            let num = that.parentElement.parentElement.children[5].children[1].innerHTML;
             if(that.checked)
-                num.innerHTML = String(parseInt(num.innerHTML) + 1);
+                total_num.innerHTML = String(parseInt(total_num.innerHTML) + parseInt(num));
             else {
-                num.innerHTML = String(parseInt(num.innerHTML) - 1);
+                total_num.innerHTML = String(parseInt(total_num.innerHTML) - parseInt(num));
             }
-            total_pay.href = url + num.innerHTML;
-            console.log(total_pay.href)
+
             goodsArray[parseInt(that.id)].checked = that.checked;
             get_total_pay();
             for (let i = 0;i<n;i++){
@@ -142,25 +155,37 @@
             all.checked=true;
         }
         function get_total_pay() {
-            var sum = 0;
-            for(i = 0;i<n;i++){
+            let sum = 0;
+            for(let i = 0;i<n;i++){
                 if(checkboxs[i].checked){
                     sum += parseFloat(money[i].innerHTML);
                 }
             }
-            total_pay.innerHTML = sum;
+            total_pay.innerHTML = String(sum);
         }
         function save() {
-            form0.firstElementChild.value = num.innerHTML;
-            let t = 0;
-            for (let i = 0;i<n;i++){
-                if(goodsArray[i].checked){
+            let count = 0, t = 0;
+            for(let i = 0;i<n;i++){
+                if(checkboxs[i].checked){
+                    count++;
                     let str = JSON.stringify(goodsArray[i]);
                     localStorage.setItem("goods"+t, str);
                     t++;
                 }
             }
-            form0.submit();
+            if(count>0) {
+                let goods = [];
+                for (let i = 0; i < n; i++) {
+                    if (checkboxs[i].checked) {
+                        goods.push(goodsArray[i]);
+                    }
+                }
+                form0.firstElementChild.value = JSON.stringify(goods);
+                form0.submit();
+            }
+            else{
+                alert("您没有选择任何商品！")
+            }
         }
     </script>
 {% endblock %}

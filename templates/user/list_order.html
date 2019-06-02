@@ -1,0 +1,59 @@
+{% extends 'user/base.html' %}
+{% block title %}我的订单{% endblock %}
+{% block content %}
+    <style>
+        tr{height: 40px;}
+    </style>
+    {% if order_group %}
+        <h2 style="padding-left: 130px">已完成订单：</h2>
+        <div style="margin-top: 10px">
+            {% for order in order_group %}
+                <div style="width:1000px;height:30px;background-color:#d9edf7;font: 16px bold 微软雅黑;margin: 0 auto;">
+                    <span>订单号：{{ order.desc.id }} </span>
+                    <span style="padding-left: 40px;display: inline-block;height: 30px;line-height: 30px;">下单时间：{{ order.desc.order_date }}</span>
+                </div>
+
+                <table border="1" style="border-collapse: collapse;width: 1000px;text-align: center;margin: 5px;margin: 10px auto">
+                    <tr>
+                        <th>商品图片</th>
+                        <th>商品名称</th>
+                        <th>商品单价</th>
+                        <th>商品数量</th>
+                        <th>生产厂家</th>
+                        <th>金额</th>
+                    </tr>
+                    {% for goods in order.goods_list %}
+                        <tr>
+                            <td><img src="{{ MEDIA_URL}}{{goods.goods_img}}" alt="商品图片" style="max-width: 100px;max-height: 100px" /></td>
+                            <td>{{ goods.goods_name }}</td>
+                            <td>{{ goods.goods_price }}/{{ goods.goods_unit }}</td>
+                            <td>{{ goods.num }}</td>
+                            <td>{{ goods.goods_manufacturer }}</td>
+                            <td>{{ goods.pay }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <div style="height:30px;padding:5px 0 30px 130px;font: 16px bold 微软雅黑"><strong>合计：</strong><span style="font: 20px bold 微软雅黑;color: red">¥ {{ order.desc.order_total }}</span></div>
+            {% endfor %}
+        </div>
+        <div style="text-align: center;margin: 5px">
+            {% if order_group.has_previous %}
+                <a href="{% url 'order:list_order' %}?page_num={{ order_group.previous_page_number }}">上一页</a>
+            {% endif %}
+            {% for i in order_group.paginator.page_range %}
+                {% if i == order_group.number %}
+                    <a href="{% url 'order:list_order' %}?page_num={{ i }}" style="font-size: 30px;padding: 0 10px">{{ i}}</a>
+                {% else %}
+                    <a href="{% url 'order:list_order' %}?page_num={{ i }}" style="font-size: 20px;padding: 0 10px">{{ i }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if order_group.has_next %}
+                <a href="{% url 'order:list_order' %}?page_num={{ order_group.next_page_number }}">下一页</a>
+            {% endif %}
+        </div>
+    {% else %}
+        <div style="height:300px;width:100%;margin: 0 auto;text-align: center;line-height: 300px;">
+            暂无历史订单！
+        </div>
+    {% endif %}
+{% endblock %}

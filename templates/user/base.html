@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title%}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/user.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user_index.css' %}">
+</head>
+<body>
+    <div class="header">
+        <img class="logo" src="/static/images/logo.png" alt="logo">
+        <div class="search">
+            <form action="{% url 'goods:show' %}" id="form1">
+                <input type="text" class="search_input" name="content" placeholder="搜索商品..."/>
+                <button class="search_btn" type="button">搜索</button>
+            </form>
+        </div>
+        <div id="top_right">
+            {% if user.id %}
+                您好，{{ user.username }}
+                <span class="sep">|</span>
+                <a href="{% url 'user:logout' %}">退出</a>
+            {% else %}
+                您好，访客！
+                <span class="sep">|</span>
+                <a href="{% url 'user:login' %}">登录</a>
+                <span class="sep">|</span>
+                <a href="{% url 'user:register' %}">注册</a>
+            {% endif %}
+        </div>
+	</div>
+    <div class="nav_div">
+        <ul class="nav">
+            <li class="nav_item">首页</li>
+            <li class="nav_item">我的购物车</li>
+            <li class="nav_item">我的订单</li>
+            <li class="nav_item">个人中心</li>
+        </ul>
+    </div>
+    </div>
+    <div class="content" style="min-height: 60%">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <div class="footer">
+        <div class="foot_link">
+			<a href="#">关于我们</a>
+			<span>|</span>
+			<a href="#">联系我们</a>
+			<span>|</span>
+			<a href="#">招聘人才</a>
+			<span>|</span>
+			<a href="#">友情链接</a>
+		</div>
+		<p>CopyRight © 2019 南京校园超市技术有限公司 All Rights Reserved</p>
+		<p>电话：025-****888    宁ICP备*******8号</p>
+    </div>
+    <script>
+        var items = document.getElementsByClassName("nav_item");
+        var logo = document.getElementsByClassName("logo")[0];
+        var urls = new Array("{% url 'goods:index' %}", "{% url 'order:list_cart' %}",
+                            "{% url 'order:list_order' %}", "{% url 'user:profile' %}");
+        var btn = document.getElementsByClassName("search_btn")[0],
+            text = document.getElementsByClassName("search_input")[0],
+            form1 = document.getElementById("form1");
+        for (let i = 0;i<items.length;i++){
+            if(i == 0) {
+                items[i].onclick = function () {
+                    location = urls[i];
+                }
+            }else{
+                items[i].onclick = function () {
+                    {% if user.id %}
+                        location = urls[i];
+                    {% else %}
+                        alert("亲，请先登录哦！");
+                        location = "{% url 'user:login' %}";
+                    {% endif %}
+                }
+            }
+        }
+        logo.onclick = function () {
+            location = urls[0];
+        };
+        btn.onclick = function () {
+            if(text.value != ""){
+                form1.submit();
+            }
+        }
+    </script>
+</body>
+</html>

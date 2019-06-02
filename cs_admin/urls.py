@@ -23,6 +23,9 @@ urlpatterns = [
     url(r'list_admin/', views.list_admin, name='list_admin'),
     # 个人中心
     url(r'profile/', views.profile, name='profile'),
-
+    # 分类管理
+    url(r'list_cag/', views.list_cag, name='list_cag'),
+    url(r'add_cag/', views.add_cag, name='add_cag'),
+    url(r'edit_cag/', views.edit_cag, name='edit_cag'),
 ]
 

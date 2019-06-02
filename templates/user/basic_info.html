@@ -1,0 +1,33 @@
+{% extends 'user/usercenter.html' %}
+{% block user_center %}
+    <style>
+        .basic_info_table{margin: 30px auto auto 50px;border-collapse: collapse}
+        .basic_info_table tr td{height: 40px;width: 100px;}
+        .basic_info_btn{width: 80px;height:30px;margin:20px 50px;}
+    </style>
+    <table class="basic_info_table">
+        <tr>
+            <td>头像：</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>用户名：</td>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <td>昵称：</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>性别：</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>出生日期：</td>
+            <td></td>
+        </tr>
+    </table>
+    <div>
+        <button class="basic_info_btn">编辑</button>
+    </div>
+{% endblock %}

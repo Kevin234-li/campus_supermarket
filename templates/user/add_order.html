@@ -1,0 +1,50 @@
+{% extends 'user/base.html' %}
+{% block title %}生产订单{% endblock %}
+{% block content %}
+    <style>
+        table{border:1px;border-collapse: collapse;margin: 0 auto;}
+        th{height: 40px;line-height: 40px;text-align: center}
+        td{height: 40px;line-height: 40px;width: 120px;text-align: center}
+        h1{font-size: 16px;margin-left: 190px}
+        #end{width: 150px;height: 61px;border:0px;background-color: #ff3d3d;font:30px bold 微软雅黑;float: right;
+            color: #FFFFFF;text-align: center;margin-bottom: 20px}
+        #total_pay, #num{font: 40px bold 微软雅黑;float: right;color: #ff1d2b;line-height: 61px;}
+        .bottom{background-color: #fff4e8;height: 61px;line-height: 61px;margin: 10px auto;width: 1000px;}
+        .bottom_right{float: right;padding: 0px 7px;bottom: 10px;}
+    </style>
+        <div style="min-height: 240px;margin-top: 40px">
+            <table id="table" border="1" >
+                <tr>
+                    <th>商品图片</th>
+                    <th>商品名称</th>
+                    <th>商品价格</th>
+                    <th>购买数量</th>
+                    <th>小计</th>
+                </tr>
+                {% for goods in goods_list %}
+                    <tr class="goods_item">
+                        <td><img src="{{ MEDIA_URL}}{{goods.goods_img}}" alt="商品图片" style="max-width: 100px;max-height: 75px"></td>
+                        <td>{{ goods.goods_name }}</td>
+                        <td>{{ goods.goods_price }} / {{ goods.goods_unit }}</td>
+                        <td>{{ goods.num }}</td>
+                        <td>{{ goods.pay }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <form action="{% url "order:add_order" %}" id="form3" method="post" style="display: none">
+            <input type="text" name="text" style="display: none" value="{{ json }}">
+            <input type="text" name="status" value="1">
+        </form>
+            <div class="bottom">
+                <button id="end" onclick="final_submit()"> 提交订单 </button>
+                <span class="bottom_right">合计：¥<label id="total_pay" style="padding-right: 20px">{{ total_pay }}</label></span>
+                <span class="bottom_right">件商品</span><label id="num">{{ count }}</label><span class="bottom_right">共计</span>
+            </div>
+    <script>
+        function final_submit() {
+            let form3 = document.getElementById("form3");
+            form3.submit();
+        }
+    </script>
+{% endblock %}

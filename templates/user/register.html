@@ -1,0 +1,57 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block title %}校园超市-注册{% endblock %}
+{% block content %}
+    <style>
+        .msg{font: 14px bold 微软雅黑;color: red;}
+    </style>
+    <form action="{% url 'user:register' %}" method="post" id="form_register">
+        <table>
+            <tr>
+                <td><label for="username">用户名：</label></td>
+                <td><input type="text" name="username" id="username"></td>
+                <td class="msg">{{ msg1 }}</td>
+            </tr>
+            <tr>
+                <td><label for="pwd">密码：</label></td>
+                <td><input type="text" name="pwd" id="pwd"></td>
+                <td class="msg"></td>
+            </tr>
+            <tr>
+                <td><label for="pwd_c">确认密码：</label></td>
+                <td><input type="text" name="pwd_c" id="pwd_c"></td>
+                <td class="msg"></td>
+            </tr>
+            <tr>
+                <td><label for="pwd_c">邮箱：</label></td>
+                <td><input type="text" name="email" id="email"></td>
+                <td class="msg">{{ msg2 }}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button type="button" id="register_btn">注册</button></td>
+            </tr>
+        </table>
+    </form>
+    <script>
+        var register_btn = document.getElementById("register_btn"),
+            username = document.getElementById("username"),
+            pwd = document.getElementById("pwd"),
+            pwd_c = document.getElementById("pwd_c"),
+            email = document.getElementById("email"),
+            form_register = document.getElementById("form_register");
+        var msgs = document.getElementsByClassName("msg");
+        var xhr;
+        register_btn.onclick = function () {
+            if(username.value == "" || pwd.value == "" || pwd_c.value == "" || email.value == ""){
+                alert("请填写完整的信息！")
+            }
+            else if(pwd_c.value != pwd.value){
+                msgs[2].innerHTML = "两次密码输入不一致！";
+            }
+            else{
+                form_register.submit()
+            }
+        }
+    </script>
+{% endblock %}

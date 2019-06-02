@@ -10,7 +10,7 @@
         .in input,select{width: 250px;margin: 6px 0}
     </style>
     <h1 style="margin-left: 10px">编辑商品</h1>
-     <form action="{% url 'cs_admin:add_goods' %}" method="post" enctype="multipart/form-data">
+     <form action="{% url 'cs_admin:edit_goods' %}?gid={{ goods.id }}" method="post" enctype="multipart/form-data">
          <div class="in" style="text-align: right;width: 400px;">
              <label for="goods_name">商品名称：</label>
              <input type="text" name="goods_name" id="goods_name" class="textbox" value="{{ goods.goods_name }}" /><br>

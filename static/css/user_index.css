@@ -1,0 +1,50 @@
+.left_chunk{float: left;width:27%;min-height:400px;margin-bottom: 30px}
+.left_chunk ul{padding-right: 0}
+.left_chunk ul li{
+    padding: 5px 0;
+    text-align: center;
+    width:200px;
+    height: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    font: 20px bold 微软雅黑;
+    border: solid 1px #dddddd;
+    margin-bottom: -1px;
+    background-color: #fafafa;
+}
+.left_chunk ul li:hover{background-color: #428bca;color: white;}
+.right_chunk{float: left;width:69%;height:300px;}
+.slides{
+    width: 800px;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+    margin:10px auto;
+}
+.slides_ul{width: 3500px;height: 400px;padding: 0;margin: 0;position: absolute;}
+.slides_ul li{width: 800px;height: 400px;float: left;}
+.slides ul li img{width: 800px;height: 400px;}
+.slides_bottom{padding: 0;position: absolute;bottom: 0px;width: 800px;left: 323px;}
+.slides_bottom li{float: left;margin: 0 3px;width: 30px;height: 5px;cursor: pointer}
+.sub_item{
+    border-bottom: solid 1px #3b99fc;
+    clear: both;
+    background-color: #d9edf7;
+    font: 32px bold 微软雅黑;
+    height: 40px;
+    width: 1100px;
+    margin: 0 auto;
+}
+.cag_goods{
+    width: 1100px;
+    margin: 0 auto;
+    height: 150px;
+}
+.goods_info{margin: 10px 30px 80px 30px;float: left;height: 200px;}
+.goods_info img{
+    display: inline-block;
+    max-height: 180px;
+    max-width: 200px;
+    margin: 0 10px;
+}
+.cag_item img{width: 200px;height: 200px;background-color: #428bca;float: left}

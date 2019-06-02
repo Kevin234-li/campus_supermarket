@@ -1,0 +1,24 @@
+{% extends 'admin/base.html' %}
+{% block title %}分类管理{% endblock %}
+{% block content %}
+<table border="1" style="border-collapse: collapse">
+    <tr>
+        <th>分类编号</th>
+        <th>分类名称</th>
+        <th>分类图片</th>
+        <th>操作</th>
+    </tr>
+    {% for cag in cags %}
+        <tr>
+            <td>{{ cag.id }}</td>
+            <td>{{ cag.cag_name }}</td>
+            <td><img src="{{ MEDIA_URL}}{{cag.cag_img}}" alt="类别图片" style="width: 100px;height: 75px"></td>
+            <td><a href="{% url 'cs_admin:edit_cag' %}?cag_id={{ cag.id }}">编辑</a>
+                <span class="sep">|</span>
+                <a href="{% url 'cs_admin:edit_cag' %}?cag_id={{ cag.id }}">删除</a></td>
+        </tr>
+    {% endfor %}
+</table>
+    <a href="{% url 'cs_admin:add_cag' %}">添加分类</a>
+
+{% endblock %}

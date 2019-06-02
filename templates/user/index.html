@@ -1,0 +1,84 @@
+{% extends 'user/base.html' %}
+{% load static %}
+{% block title %}校园超市-首页{% endblock %}
+{% block content %}
+    <div class="left_chunk">
+        <div style="font-size: 30px;text-align: center;margin:5px 50px 5px auto;width:200px;border-bottom: 1px solid #3685f1">全部分类</div>
+        <ul>
+            {% for cag_goods in cag_goods_list %}
+                <a href="#{{ cag_goods.cag.cag_name }}"><li style="line-height: 40px">{{ cag_goods.cag.cag_name }}</li></a>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="right_chunk">
+        <div class="slides">
+            <ul class="slides_ul">
+                <li><img src="/static/images/slide1.jpg" alt="图片1"></li>
+                <li><img src="/static/images/slide2.jpg" alt="图片2"></li>
+                <li><img src="/static/images/slide3.jpg" alt="图片3"></li>
+                <li><img src="/static/images/slide4.jpg" alt="图片4"></li>
+            </ul>
+            <ul class="slides_bottom">
+                <li style="background-color: blue"></li>
+                <li style="background-color: #C8C8C8"></li>
+                <li style="background-color: #C8C8C8"></li>
+                <li style="background-color: #C8C8C8"></li>
+            </ul>
+        </div>
+    </div>
+    <div class="main">
+        {% for cag_goods in cag_goods_list %}
+            <div class="sub_item" id="{{ cag_goods.cag.cag_name }}">
+                <img src="{{ MEDIA_URL}}{{cag_goods.cag.cag_img}}" alt="分类图片" style="width: 40px;height: 40px;float: left;margin-right: 40px;margin-left: 10px;">
+                <span>{{ cag_goods.cag.cag_name }}</span>
+                <span style="float: right;font: 16px bold 微软雅黑;line-height: 41px;margin-right: 30px;"><a href="#">更多>></a></span>
+            </div>
+            <div class="cag_goods">
+                {% for goods in cag_goods.goods_list %}
+                    <div class="goods_info">
+                        <div style="height: 180px;width: 200px">
+                            <a href="{% url 'goods:goods_detail' %}?gid={{ goods.id }}"><img src="{{ MEDIA_URL}}{{goods.goods_img}}" alt="商品图片" ></a><br>
+                        </div>
+                        <div style="height: 20px;text-align: center;color: red;margin: 5px">¥ {{ goods.goods_price }} / {{ goods.goods_unit }}</div>
+                        <div style="text-align: center;font: 22px bold 微软雅黑">{{ goods.goods_name }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    <script>
+        var slides_ul = document.getElementsByClassName("slides_ul")[0];
+        var k = 0, count = slides_ul.children.length;
+        var left = slides_ul.offsetLeft, width = slides_ul.firstElementChild.offsetWidth;
+        var blues = document.getElementsByClassName("slides_bottom")[0];
+        var t = setInterval(change,3000);
+        window.onload = init;
+        function init() {
+            for(let i = 0;i<count;i++){
+                blues.children[i].onmouseenter = function () {
+                    slides_ul.style.left = left - i * width +"px";
+                    blues.children[i].style.backgroundColor = "blue";
+                    for(let j = 0;j<count;j++){
+                        if(i != j){
+                            blues.children[j].style.backgroundColor = "#C8C8C8";
+                        }
+                    }
+                    k = i;
+                }
+            }
+            blues.onmouseenter = function () {
+                clearInterval(t);
+            }
+            blues.onmouseleave = function () {
+                t = setInterval(change,3000);
+            }
+        }
+        function change() {
+            slides_ul.style.left = left - k * width + "px";
+            blues.children[k].style.backgroundColor = "blue";
+            let pre = (k-1+count)%count;
+            blues.children[pre].style.backgroundColor = "#C8C8C8";
+            k = (k+1)%count;
+        }
+    </script>
+{% endblock %}

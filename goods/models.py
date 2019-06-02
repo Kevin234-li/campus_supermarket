@@ -12,13 +12,15 @@ class GoodsInfo(models.Model):
     goods_manufacturer = models.CharField(max_length=50)  # 生产厂家
     goods_repertory = models.IntegerField()  # 商品库存
     cag = models.ForeignKey('GoodsCategory', on_delete=models.CASCADE)
+
     class Meta:
         db_table = 'goodsinfo'
 
+
 class GoodsCategory(models.Model):
     cag_name = models.CharField(max_length=100)
-    # cag_css = models.CharField(max_length=20)
     cag_img = models.ImageField(upload_to='cag')
+
     class Meta:
         db_table = 'goods_category'
 

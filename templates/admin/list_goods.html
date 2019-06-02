@@ -5,52 +5,56 @@
 {% block content %}
     <style>
         table{border-collapse: collapse;width: 90%;text-align: center;font: 16px bold Microsoft Yahei}
-        th,td{border: 1px solid #d9edf7}
         th{height: 40px}
+        th,td{border: 1px solid #D9EDF7}
         .outer_table{margin: 0 auto}
+        a:hover{color: #3b99fc;}
     </style>
     <table class="outer_table">
         <tr>
-            <td>
+            <td style="border: 0">
     <h1>商品列表</h1>
     <div style="margin: 5px 0">
-    <table border="1">
+    <table border="1" class="table">
         <tr>
             <th class="head">商品图片</th>
             <th class="head">商品名</th>
             <th class="head">货号</th>
             <th class="head">价格</th>
-            <th class="head">单位</th>
             <th class="head">库存</th>
             <th class="head">生产商</th>
             <th class="head">分类</th>
-            <th class="head">编辑</th>
-            <th class="head">删除</th>
+            <th class="head">操作</th>
         </tr>
         {% for goods in goods_list %}
             <tr>
                 <td><img src="{{ MEDIA_URL}}{{goods.goods_img}}" alt="商品图片" style="max-width: 100px;max-height: 75px"></td>
                 <td>{{ goods.goods_name }}</td>
                 <td>{{ goods.goods_num }}</td>
-                <td>{{ goods.goods_price }}</td>
-                <td>{{ goods.goods_unit }}</td>
+                <td>{{ goods.goods_price }}/{{ goods.goods_unit }}</td>
                 <td>{{ goods.goods_repertory }}</td>
                 <td>{{ goods.goods_manufacturer }}</td>
                 <td>{{ goods.cag.cag_name }}</td>
-                <td><a href="{% url 'cs_admin:edit_goods' %}?id={{ goods.id }}">编辑</a></td>
-                <td><a href="{% url 'cs_admin:delete_goods' %}?id={{ goods.id }}">删除</a></td>
+                <td><a href="{% url 'cs_admin:edit_goods' %}?gid={{ goods.id }}">编辑</a><span class="sep">|</span>
+                <a href="{% url 'cs_admin:delete_goods' %}?gid={{ goods.id }}">删除</a></td>
             </tr>
         {% endfor %}
     </table>
     </div>
     <div style="text-align: center;margin: 5px">
+        {% if goods_list.has_previous %}
+            <a href="{% url 'cs_admin:list_goods' %}?page_num={{ goods_list.previous_page_number }}">上一页</a>
+        {% endif %}
         {% for i in goods_list.paginator.page_range %}
             {% if i == goods_list.number %}
-                <a href="{% url 'cs_admin:list_goods' %}?new_page={{ i }}" style="font-size: 30px;padding: 0 10px">{{ i}}</a>
+                <a href="{% url 'cs_admin:list_goods' %}?page_num={{ i }}" style="font-size: 30px;padding: 0 10px">{{ i}}</a>
             {% else %}
-                <a href="{% url 'cs_admin:list_goods' %}?new_page={{ i }}" style="font-size: 20px;padding: 0 10px">{{ i }}</a>
+                <a href="{% url 'cs_admin:list_goods' %}?page_num={{ i }}" style="font-size: 20px;padding: 0 10px">{{ i }}</a>
             {% endif %}
         {% endfor %}
+        {% if goods_list.has_next %}
+            <a href="{% url 'cs_admin:list_goods' %}?page_num={{ goods_list.next_page_number }}">下一页</a>
+        {% endif %}
     </div>
 
             </td>
