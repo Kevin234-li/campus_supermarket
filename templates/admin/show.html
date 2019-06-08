@@ -1,0 +1,133 @@
+{% extends 'admin/base.html' %}
+{% block title %}搜索结果{% endblock %}
+{% block content %}
+    <style>
+        table {
+            border-collapse: collapse;
+            margin: 0 auto;
+            width: 900px
+        }
+
+        th, td {
+            height: 40px;
+            line-height: 40px;
+            width: 120px;
+            text-align: center;
+            border: solid 1px #D9EDF7;
+        }
+
+        h1 {
+            font-size: 16px;
+            margin-left: 200px
+        }
+    </style>
+    {% if goods_list %}
+        <div style="margin: 20px 70px"><strong>搜索到商品{{ goods_list | length }}件：</strong></div>
+        <table border="1" class="table">
+            <tr>
+                <th class="head">商品id</th>
+                <th class="head">商品图片</th>
+                <th class="head">商品名</th>
+                <th class="head">货号</th>
+                <th class="head">价格</th>
+                <th class="head">库存</th>
+                <th class="head">生产商</th>
+                <th class="head">分类</th>
+                <th class="head">操作</th>
+            </tr>
+            {% for goods in goods_list %}
+                <tr>
+                    <td>{{ goods.id }}</td>
+                    <td><img src="{{ MEDIA_URL }}{{ goods.goods_img }}" alt="商品图片"
+                             style="max-width: 100px;max-height: 75px"></td>
+                    <td>{{ goods.goods_name }}</td>
+                    <td>{{ goods.goods_num }}</td>
+                    <td>{{ goods.goods_price }}/{{ goods.goods_unit }}</td>
+                    <td>{{ goods.goods_repertory }}</td>
+                    <td>{{ goods.goods_manufacturer }}</td>
+                    <td>{{ goods.cag.cag_name }}</td>
+                    <td><a href="{% url 'cs_admin:edit_goods' %}?gid={{ goods.id }}">编辑</a><span class="sep">|</span>
+                        <a href="{% url 'cs_admin:delete_goods' %}?gid={{ goods.id }}">删除</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+    {% if user_list %}
+        <div style="margin: 20px 70px"><strong>搜索到用户{{ user_list | length }}个：</strong></div>
+        <table border="1" style="border-collapse: collapse">
+            <tr>
+                <th>客户编号</th>
+                <th>客户姓名</th>
+                <th>性别</th>
+                <th>出生日期</th>
+                <th>手机</th>
+                <th>邮箱</th>
+                <th>收货地址</th>
+                <th>操作</th>
+            </tr>
+            {% for user in user_list %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>
+                        {% if user.gender %}
+                            {{ user.gender }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user.birth_date %}
+                            {{ user.birth_date }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user.phone %}
+                            {{ user.phone }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user.email %}
+                            {{ user.email }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user.direction %}
+                            {{ user.direction }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'cs_admin:buy_history2' %}?client_id={{ user.id }}&page_num=1">查看</a>
+                        <span class="seq">|</span>
+                        <a href="{% url 'cs_admin:edit_user' %}?user_id={{ user.id }}">编辑</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+    {% if order_list %}
+        <div style="margin: 20px 70px"><strong>搜索到订单{{ order_list | length }}件</strong></div>
+        <table border="1" class="table">
+            <tr>
+                <th class="head">订单号</th>
+                <th class="head">客户姓名</th>
+                <th class="head">客户电话</th>
+                <th class="head">金额</th>
+                <th class="head">创建日期</th>
+                <th class="head">操作</th>
+            </tr>
+            {% for order in order_list %}
+                <tr>
+                    <td>{{ order.id }}</td>
+                    <td>{{ order.user.username }}</td>
+                    <td>{{ order.user.phone }}</td>
+                    <td>¥ {{ order.order_total }}</td>
+                    <td>{{ order.order_date }}</td>
+                    <td>
+                        <a href="{% url 'cs_admin:order_detail' %}?oid={{ order.id }}">查看</a>
+                        <span class="seq">|</span>
+                        <a href="">删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}

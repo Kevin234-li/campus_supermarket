@@ -1,0 +1,44 @@
+<h3 style="margin: 30px auto 0 50px">基本信息</h3>
+<form action="{% url 'user:edit_basic_info' %}" method="post">
+    <table class="basic_info_table">
+        <tr>
+            <td>用户名：</td>
+            <td><input type="text" name="username" value="{{ user.username }}"></td>
+        </tr>
+        <tr>
+            <td>昵称：</td>
+            <td>
+                {% if user.nickname %}
+                    <input type="text" name="nickname" value="{{ user.nickname }}">
+                {% else %}
+                    <input type="text" name="nickname" value="">
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>性别：</td>
+            <td>
+                <select name="gender" id="">
+                    <option value="男">男</option>
+                    <option value="女">女</option>
+                    <option value="其他">其他</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>出生日期：</td>
+            <td><input type="date" name="birth_date" id="birth_date" value="{{ user.birth_date }}"></td>
+        </tr>
+        <tr>
+            <td>手机：</td>
+            <td><input type="text" name="phone" id="phone" value="{{ user.phone }}"></td>
+        </tr>
+        <tr>
+            <td>邮箱：</td>
+            <td><input type="text" name="email" id="email" value="{{ user.email }}"></td>
+        </tr>
+    </table>
+    <div>
+        <input type="submit" class="basic_info_btn" value="保存"/>
+    </div>
+</form>

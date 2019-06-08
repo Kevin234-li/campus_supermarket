@@ -2,7 +2,7 @@
 <html lang="en">
 {% load static %}
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>{% block title%}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/user.css' %}">
     <link rel="stylesheet" href="{% static 'css/user_index.css' %}">
@@ -57,25 +57,27 @@
 		<p>电话：025-****888    宁ICP备*******8号</p>
     </div>
     <script>
-        var items = document.getElementsByClassName("nav_item");
+        var nav_items = document.getElementsByClassName("nav_item");
         var logo = document.getElementsByClassName("logo")[0];
         var urls = new Array("{% url 'goods:index' %}", "{% url 'order:list_cart' %}",
-                            "{% url 'order:list_order' %}", "{% url 'user:profile' %}");
+            "{% url 'order:list_order' %}", "{% url 'user:basic_info' %}");
         var btn = document.getElementsByClassName("search_btn")[0],
             text = document.getElementsByClassName("search_input")[0],
-            form1 = document.getElementById("form1");
-        for (let i = 0;i<items.length;i++){
+            form1 = document.getElementById("form1"),
+            content = document.getElementsByClassName("content")[0];
+        var xhr = null;
+        for (let i = 0; i < nav_items.length; i++) {
             if(i == 0) {
-                items[i].onclick = function () {
-                    location = urls[i];
+                nav_items[i].onclick = function () {
+                    window.location = urls[i];
                 }
             }else{
-                items[i].onclick = function () {
+                nav_items[i].onclick = function () {
                     {% if user.id %}
-                        location = urls[i];
+                        window.location = urls[i];
                     {% else %}
                         alert("亲，请先登录哦！");
-                        location = "{% url 'user:login' %}";
+                        window.location = "{% url 'user:login' %}";
                     {% endif %}
                 }
             }

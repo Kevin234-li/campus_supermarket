@@ -3,6 +3,12 @@
 {% block content %}
     <style>
         #form2 td{margin: 50px 0;padding: 9px 0;}
+
+        .optr {
+            float: left;
+            height: 20px;
+            width: 25px
+        }
     </style>
     <div>
         <img src="{{ MEDIA_URL}}{{goods.goods_img}}"  alt="商品图片" style="float: left;max-width: 400px;max-height: 300px;margin-left: 200px">
@@ -28,11 +34,18 @@
                 </tr>
                 <tr>
                     <td>商品分类：</td>
-                    <td>{{ goods.cag_id }}</td>
+                    <td>{{ goods.cag_name }}</td>
                 </tr>
                 <tr>
                     <td>购买数量：</td>
-                    <td><input name="num" id="num" type="text" style="border: solid 1px #D9EDF7;height: 25px"/></td>
+                    <td>
+                        <div style="width: 80px;height: 50px;">
+                            <input name="num" id="buy_num" type="text" value="1" onkeyup=""
+                                   style="border: solid 1px #D9EDF7;height: 36px;width:36px;float: left;text-align: center"/>
+                            <button type="button" class="optr">+</button>
+                            <button type="button" class="optr">-</button>
+                        </div>
+                    </td>
                 </tr>
                 <tr>
                     <td></td>
@@ -46,11 +59,33 @@
     </div>
     <script>
         var btn = document.getElementById("btn"),
-            num = document.getElementById("num"),
+            num = document.getElementById("buy_num"),
             left = document.getElementById("left"),
-            form2 = document.getElementById("form2");
+            form2 = document.getElementById("form2"),
+            buy_num = document.getElementById("buy_num"),
+            optrs = document.getElementsByClassName("optr");
+        optrs[0].onclick = function () {
+            buy_num.value = String(parseInt(buy_num.value) + 1);
+        };
+        optrs[1].onclick = function () {
+            let val = parseInt(buy_num.value);
+            if (val > 1) {
+                buy_num.value = String(val - 1);
+            }
+        };
+        buy_num.onkeyup = function () {
+            let val = buy_num.value.replace(/[^1234567890]+/g, '');
+            if (parseInt(val) != 0) {
+                buy_num.value = val;
+
+            } else {
+                buy_num.value = "1";
+            }
+        };
         btn.onclick = function () {
-            if(parseInt(num.value) > parseInt(left.innerHTML)){
+            if (num.value == "") {
+                alert("请填写购买数量！")
+            } else if (parseInt(num.value) > parseInt(left.innerHTML)) {
                 alert("对不起，库存不足！请减少购买数量或待货源充足时再购买")
             }
             else{

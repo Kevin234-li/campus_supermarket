@@ -8,7 +8,13 @@
         h1{font-size: 16px;margin-left: 190px}
         #end{width: 150px;height: 61px;border:0px;background-color: #ff3d3d;font:30px bold 微软雅黑;float: right;
             color: #FFFFFF;text-align: center;margin-bottom: 20px}
-        #total_pay, #num{font: 40px bold 微软雅黑;float: right;color: #ff1d2b;line-height: 61px;}
+
+        #total_pay, #buy_num {
+            font: 40px bold 微软雅黑;
+            float: right;
+            color: #ff1d2b;
+            line-height: 61px;
+        }
         .bottom{background-color: #fff4e8;height: 61px;line-height: 61px;margin: 10px auto;width: 1000px;}
         .bottom_right{float: right;padding: 0px 7px;bottom: 10px;}
     </style>
@@ -39,7 +45,7 @@
             <div class="bottom">
                 <button id="end" onclick="final_submit()"> 提交订单 </button>
                 <span class="bottom_right">合计：¥<label id="total_pay" style="padding-right: 20px">{{ total_pay }}</label></span>
-                <span class="bottom_right">件商品</span><label id="num">{{ count }}</label><span class="bottom_right">共计</span>
+                <span class="bottom_right">件商品</span><label id="buy_num">{{ count }}</label><span class="bottom_right">共计</span>
             </div>
     <script>
         function final_submit() {

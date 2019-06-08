@@ -1,0 +1,185 @@
+{% extends 'admin/base.html' %}
+{% block title %}销售统计{% endblock %}
+{% block content %}
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            text-align: center;
+            font: 16px bold Microsoft Yahei;
+            margin: 0 auto;
+        }
+
+        th {
+            height: 40px;
+            color: white;
+            background-color: cornflowerblue;
+            border: 1px solid cornflowerblue
+        }
+
+        td {
+            border: 1px solid #D9EDF7;
+            height: 30px;
+        }
+
+        a:hover {
+            color: #3b99fc;
+        }
+    </style>
+    <div style="margin-left: 10px">
+        <h1>月销售额</h1>
+        <div style="margin: 5px 0" id="container1">
+
+        </div>
+        <div><i>总销售额：</i>¥ {{ total_sale }}</div>
+        <h1>热销商品排行</h1>
+        <div style="margin: 5px 0" id="container2">
+
+        </div>
+        <h1>各类商品销售占比</h1>
+        <div style="margin: 5px 0" id="container3">
+
+        </div>
+    </div>
+    <script>
+        var data1 = eval("(" + "{{ data1 }}" + ")"),
+            data2_keys = eval('(' + '{{ data2_keys | safe }}' + ')'),
+            data2_values = eval("{{ data2_values | safe}}"),
+            data3 = eval('(' + '{{ data3 | safe}}' + ')');
+        var date = new Date();
+        var title_prefix = String(date.getFullYear()) + "年" + String((date.getMonth() - 1 + 12) % 12 + 1);
+        var chart = Highcharts.chart('container1', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: title_prefix + "月销售额柱状图"
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                type: 'category',
+                labels: {
+                    rotation: 0  // 设置轴标签旋转角度
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '销售额 (元)'
+                }
+            },
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: false
+                    },
+                    pointStart: 1
+                }
+            },
+            legend: {
+                enabled: false
+            },
+            tooltip: {
+                pointFormat: '销售额: <b>{point.y:.1f} 元</b>'
+            },
+            series: [{
+                name: '销售额',
+                data: data1,
+                dataLabels: {
+                    enabled: true,
+                    rotation: -90,
+                    color: '#FFFFFF',
+                    align: 'right',
+                    format: '{point.y:.1f}', // :.1f 为保留 1 位小数
+                    y: 10
+                }
+            }]
+        });
+        var chart = Highcharts.chart('container2', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: title_prefix + "月热销商品TOP10"
+            },
+            subtitle: {
+                text: ''
+            },
+            xAxis: {
+                categories: data2_keys,
+                title: {
+                    text: null
+                }
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '销售量 (件)',
+                    align: 'high'
+                },
+                labels: {
+                    overflow: 'justify'
+                }
+            },
+            tooltip: {
+                valueSuffix: ' 件'
+            },
+            plotOptions: {
+                bar: {
+                    dataLabels: {
+                        enabled: true,
+                        allowOverlap: true // 允许数据标签重叠
+                    }
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -40,
+                y: 100,
+                floating: true,
+                borderWidth: 1,
+                backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                shadow: true
+            },
+            series: [{
+                name: '销售量',
+                data: data2_values,
+                showInLegend: false
+            }]
+        });
+        // Build the chart
+        Highcharts.chart('container3', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: title_prefix + "月各类商品销售占比"
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: false
+                    },
+                    showInLegend: true
+                }
+            },
+            series: [{
+                name: '占比',
+                colorByPoint: true,
+                data: data3
+            }]
+        });
+    </script>
+{% endblock %}

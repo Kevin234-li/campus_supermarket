@@ -1,0 +1,85 @@
+{% extends 'admin/base.html' %}
+{% block title %}
+    订单列表
+{% endblock %}
+{% block content %}
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            text-align: center;
+            font: 16px bold Microsoft Yahei;
+            margin: 0 auto;
+        }
+
+        th {
+            height: 40px;
+            color: white;
+            background-color: cornflowerblue;
+            border: 1px solid cornflowerblue
+        }
+
+        td {
+            border: 1px solid #D9EDF7;
+            height: 30px;
+        }
+
+        .outer_table {
+            margin: 0 auto
+        }
+
+        a:hover {
+            color: #3b99fc;
+        }
+    </style>
+    <table class="outer_table">
+        <tr>
+            <td style="border: 0">
+                <h1>订单列表</h1>
+                <div style="margin: 5px 0">
+                    <table border="1" class="table">
+                        <tr>
+                            <th class="head">订单号</th>
+                            <th class="head">客户姓名</th>
+                            <th class="head">客户电话</th>
+                            <th class="head">金额</th>
+                            <th class="head">创建日期</th>
+                            <th class="head">操作</th>
+                        </tr>
+                        {% for order in orders %}
+                            <tr>
+                                <td>{{ order.id }}</td>
+                                <td>{{ order.client_name }}</td>
+                                <td>{{ order.client_phone }}</td>
+                                <td>¥ {{ order.order_total }}</td>
+                                <td>{{ order.order_date }}</td>
+                                <td>
+                                    <a href="{% url 'cs_admin:order_detail' %}?oid={{ order.id }}">查看</a>
+                                    <span class="seq">|</span>
+                                    <a href="">删除</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                <div style="text-align: center;margin: 5px">
+                    {% if orders.has_previous %}
+                        <a href="{% url 'cs_admin:list_order' %}?page_num={{ orders.previous_page_number }}">上一页</a>
+                    {% endif %}
+                    {% for i in orders.paginator.page_range %}
+                        {% if i == orders.number %}
+                            <a href="{% url 'cs_admin:list_order' %}?page_num={{ i }}"
+                               style="font-size: 30px;padding: 0 10px">{{ i }}</a>
+                        {% else %}
+                            <a href="{% url 'cs_admin:list_order' %}?page_num={{ i }}"
+                               style="font-size: 20px;padding: 0 10px">{{ i }}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if orders.has_next %}
+                        <a href="{% url 'cs_admin:list_order' %}?page_num={{ orders.next_page_number }}">下一页</a>
+                    {% endif %}
+                </div>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

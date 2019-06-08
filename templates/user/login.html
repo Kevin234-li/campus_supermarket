@@ -1,21 +1,82 @@
-{% extends 'user/base.html' %}
-{% load static %}
-{% block title %}校园超市-登录{% endblock %}
-{% block content %}
-    <form action="{% url 'user:login'%}" method="POST">
-        <table style="margin: 0px auto;padding: 50px 0">
-            <tr>
-                <td><label for="username">用户名：</label></td>
-                <td><input type="text" name="username"></td>
-            </tr>
-            <tr>
-                <td><label for="pwd">密码：</label></td>
-                <td><input type="text" name="pwd"></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><button>登录</button></td>
-            </tr>
-        </table>
-    </form>
-{% endblock %}
+<html>
+<head>
+    <title>校园超市-登录</title>
+    <style>
+        .login_body {
+            height: 460px;
+            width: 500px;
+            margin: 60px auto;
+            border: solid 1px #e1e1e2;
+        }
+
+        .login_body div {
+            width: 50%;
+            margin: 20px auto
+        }
+
+        .login_body div label {
+            height: 30px;
+            line-height: 30px;
+            width: 60px;
+            display: inline-block
+        }
+
+        .login_body div input {
+            height: 30px;
+            width: 160px
+        }
+
+        .login_body button {
+            width: 100px;
+            height: 30px;
+            margin-left: 185px;
+            margin-bottom: 20px
+        }
+
+        a {
+            text-decoration: none;
+            color: #3685f1;
+            margin-left: 185px;
+        }
+    </style>
+</head>
+<body>
+<form action="" method="POST">
+    <div class="login_body">
+        <div style="width: 500px;height: 200px"><img src="/static/images/logo.png" alt="logo"
+                                                     style="width: 500px;height: 200px;"></div>
+        <div style="width: 120px;margin: -20px auto 10px auto;font-size: 20px"><strong>用户登录</strong></div>
+        <div><label for="username" style="">用户名:</label><input type="text" name="username" id="username"/></div>
+        <div><label for="pwd">密码:</label><input type="text" name="pwd" id="pwd"/></div>
+        <button type="button" id="user_login_btn">登录</button>
+        <br>
+        <a href="{% url 'user:register' %}">没有账号？立即注册>></a>
+    </div>
+</form>
+<script>
+    var user_login_btn = document.getElementById("user_login_btn"),
+        username = document.getElementById("username"),
+        pwd = document.getElementById("pwd");
+    var xhr = null;
+    user_login_btn.onclick = function () {
+        if (username.value == "" || pwd.value == "") {
+            alert("用户名或密码不能为空！")
+        } else {
+            xhr = new XMLHttpRequest();
+            xhr.open("POST", "{% url 'user:login' %}", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    let ans = xhr.responseText;
+                    alert(ans);
+                    if (ans == "登录成功！") {
+                        window.location = "{% url 'goods:index' %}"
+                    }
+                }
+            };
+            xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+            xhr.send("username=" + username.value + "&pwd=" + pwd.value)
+        }
+    }
+</script>
+</body>
+</html>

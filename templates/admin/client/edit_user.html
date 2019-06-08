@@ -1,0 +1,67 @@
+{% extends 'admin/base.html' %}
+{% block title %}编辑客户信息{% endblock %}
+{% block content %}
+    <style>
+        .basic_info_table {
+            margin: 5px auto auto 50px;
+            border-collapse: collapse
+        }
+
+        .basic_info_table tr td {
+            height: 40px;
+            width: 100px;
+        }
+
+        .basic_info_btn {
+            width: 80px;
+            height: 30px;
+            margin: 20px 50px;
+        }
+    </style>
+    <h3 style="margin: 30px auto 0 50px">编辑客户信息</h3>
+    <form action="{% url 'cs_admin:edit_user' %}" method="post">
+        <table class="basic_info_table">
+            <tr>
+                <td>用户名：</td>
+                <td><input type="text" name="username" value="{{ user.username }}"></td>
+            </tr>
+            <tr>
+                <td>昵称：</td>
+                <td>
+                    {% if user.nickname %}
+                        <input type="text" name="nickname" value="{{ user.nickname }}">
+                    {% else %}
+                        <input type="text" name="nickname" value="">
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td>性别：</td>
+                <td>
+                    <select name="gender" id="">
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                        <option value="其他">其他</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>出生日期：</td>
+                <td><input type="date" name="birth_date" id="birth_date" value="{{ user.birth_date }}"></td>
+            </tr>
+            <tr>
+                <td>手机：</td>
+                <td><input type="text" name="phone" id="phone" value="{{ user.phone }}"></td>
+            </tr>
+            <tr>
+                <td>邮箱：</td>
+                <td><input type="text" name="email" id="email" value="{{ user.email }}"></td>
+            </tr>
+        </table>
+        <div>
+            <input type="text" name="user_id" value="{{ user.id }}" style="display: none">
+            <input type="submit" class="basic_info_btn" value="保存"/>
+        </div>
+    </form>
+
+{% endblock %}

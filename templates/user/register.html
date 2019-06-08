@@ -1,57 +1,87 @@
-{% extends 'user/base.html' %}
-{% load static %}
-{% block title %}校园超市-注册{% endblock %}
-{% block content %}
+<html>
+<head>
+    <title>校园超市-注册</title>
     <style>
-        .msg{font: 14px bold 微软雅黑;color: red;}
-    </style>
-    <form action="{% url 'user:register' %}" method="post" id="form_register">
-        <table>
-            <tr>
-                <td><label for="username">用户名：</label></td>
-                <td><input type="text" name="username" id="username"></td>
-                <td class="msg">{{ msg1 }}</td>
-            </tr>
-            <tr>
-                <td><label for="pwd">密码：</label></td>
-                <td><input type="text" name="pwd" id="pwd"></td>
-                <td class="msg"></td>
-            </tr>
-            <tr>
-                <td><label for="pwd_c">确认密码：</label></td>
-                <td><input type="text" name="pwd_c" id="pwd_c"></td>
-                <td class="msg"></td>
-            </tr>
-            <tr>
-                <td><label for="pwd_c">邮箱：</label></td>
-                <td><input type="text" name="email" id="email"></td>
-                <td class="msg">{{ msg2 }}</td>
-            </tr>
-            <tr>
-                <td></td>
-                <td><button type="button" id="register_btn">注册</button></td>
-            </tr>
-        </table>
-    </form>
-    <script>
-        var register_btn = document.getElementById("register_btn"),
-            username = document.getElementById("username"),
-            pwd = document.getElementById("pwd"),
-            pwd_c = document.getElementById("pwd_c"),
-            email = document.getElementById("email"),
-            form_register = document.getElementById("form_register");
-        var msgs = document.getElementsByClassName("msg");
-        var xhr;
-        register_btn.onclick = function () {
-            if(username.value == "" || pwd.value == "" || pwd_c.value == "" || email.value == ""){
-                alert("请填写完整的信息！")
-            }
-            else if(pwd_c.value != pwd.value){
-                msgs[2].innerHTML = "两次密码输入不一致！";
-            }
-            else{
-                form_register.submit()
-            }
+        .register_body {
+            height: 525px;
+            width: 500px;
+            margin: 40px auto;
+            border: solid 1px #e1e1e2;
         }
-    </script>
-{% endblock %}
+
+        .register_body div {
+            width: 50%;
+            margin: 20px auto
+        }
+
+        .register_body div label {
+            height: 30px;
+            line-height: 30px;
+            width: 70px;
+            display: inline-block
+        }
+
+        .register_body div input {
+            height: 30px;
+            width: 160px
+        }
+
+        .register_body button {
+            width: 100px;
+            height: 30px;
+            margin-left: 196px;
+            margin-bottom: 20px
+        }
+
+        a {
+            text-decoration: none;
+            color: #3685f1;
+            margin-left: 185px;
+        }
+    </style>
+</head>
+<body>
+<form action="" method="POST">
+    <div class="register_body">
+        <div style="width: 500px;height: 200px"><img src="/static/images/logo.png" alt="logo"
+                                                     style="width: 500px;height: 200px;"></div>
+        <div><label for="username" style="">用户名:</label><input type="text" name="username" id="username"/></div>
+        <div><label for="pwd">密码:</label><input type="password" name="pwd" id="pwd"/></div>
+        <div><label for="pwd_c">确认密码:</label><input type="password" name="pwd_c" id="pwd_c"/></div>
+        <div><label for="email">邮箱:</label><input type="text" name="email" id="email"/></div>
+        <button type="button" id="user_register_btn">注册</button>
+        <br>
+        <a href="{% url 'user:login' %}">已有账号？去登录>></a>
+    </div>
+</form>
+<script>
+    var user_register_btn = document.getElementById("user_register_btn"),
+        username = document.getElementById("username"),
+        pwd = document.getElementById("pwd"),
+        pwd_c = document.getElementById("pwd_c"),
+        email = document.getElementById("email");
+    var xhr = null;
+    user_register_btn.onclick = function () {
+        if (username.value == "" || pwd.value == "" || pwd_c.value == "" || email.value == "") {
+            alert("请将信息填写完整！")
+        } else if (pwd.value != pwd_c.value) {
+            alert("两次密码输入不一致！")
+        } else {
+            xhr = new XMLHttpRequest();
+            xhr.open("POST", "{% url 'user:register' %}", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    let ans = xhr.responseText;
+                    alert(ans);
+                    if (ans == "注册成功！请返回登录") {
+                        window.location = "{% url 'user:login' %}"
+                    }
+                }
+            };
+            xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+            xhr.send("username=" + username.value + "&pwd=" + pwd.value + "&email=" + email.value);
+            }
+    }
+</script>
+</body>
+</html>

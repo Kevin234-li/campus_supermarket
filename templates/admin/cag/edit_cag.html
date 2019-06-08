@@ -1,0 +1,26 @@
+{% extends 'admin/base.html' %}
+{% block title %}分类管理-编辑分类{% endblock %}
+{% block content %}
+    <style>
+        #edit_cag_form td {
+            padding: 10px
+        }
+    </style>
+    <div style="margin: 30px 30px">
+        <form action="{% url 'cs_admin:edit_cag' %}?cag_id={{ cag.id }}" method="post" enctype="multipart/form-data"
+              id="edit_cag_form">
+            <h3>编辑分类</h3>
+        <table>
+            <tr>
+                <td>分类名称：</td>
+                <td><input type="text" name="cag_name" value="{{ cag.cag_name }}"></td>
+            </tr>
+            <tr>
+                <td>分类图片：</td>
+                <td><input type="file" name="cag_img"></td>
+            </tr>
+        </table>
+            <button style="width: 100px;height: 30px;margin: 20px 0 0 113px">编辑</button>
+    </form>
+    </div>
+{% endblock %}

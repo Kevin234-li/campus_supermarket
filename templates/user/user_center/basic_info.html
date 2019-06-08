@@ -1,0 +1,46 @@
+{% extends 'user/user_center/usercenter_base.html' %}
+{% block user_center %}
+    <h3 style="margin: 30px auto 0 50px">基本信息</h3>
+    <table class="basic_info_table">
+        <tr>
+            <td>用户名：</td>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <td>昵称：</td>
+            <td>{{ user.nickname }}</td>
+        </tr>
+        <tr>
+            <td>性别：</td>
+            <td>{{ user.gender }}</td>
+        </tr>
+        <tr>
+            <td>出生日期：</td>
+            <td style="width: 120px">{{ user.birth_date }}</td>
+        </tr>
+        <tr>
+            <td>手机：</td>
+            <td style="width: 120px">{{ user.phone }}</td>
+        </tr>
+        <tr>
+            <td>邮箱：</td>
+            <td style="width: 120px">{{ user.email }}</td>
+        </tr>
+    </table>
+    <div>
+        <button class="basic_info_btn">编辑</button>
+    </div>
+    <script>
+        var basic_info_btn = document.getElementsByClassName("basic_info_btn")[0];
+        basic_info_btn.onclick = function () {
+            xhr = new XMLHttpRequest();
+            xhr.open("GET", "{% url 'user:edit_basic_info' %}", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    right_content.innerHTML = xhr.responseText;
+                }
+            };
+            xhr.send();
+        }
+    </script>
+{% endblock %}

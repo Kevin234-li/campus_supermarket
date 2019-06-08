@@ -1,14 +1,18 @@
 {% extends 'admin/base.html' %}
-{% block title %}
-编辑商品
-{% endblock %}
+{% block title %}编辑商品{% endblock %}
 {% block content %}
     <style>
         .textbox{border: solid 1px #d9edf7;height: 30px;line-height: 30px;margin: 6px}
         .inner_table td{height: 40px;line-height:40px;}
-        .btn{height: 35px;line-height: 35px;width: 120px;font:18px bold 微软雅黑;margin: 10px 140px}
+
+        .edit_goods_btn {
+            height: 30px;
+            width: 100px;
+            margin: 20px auto 30px 145px
+        }
         .in input,select{width: 250px;margin: 6px 0}
     </style>
+    <div style="width: 500px;margin-left: 50px">
     <h1 style="margin-left: 10px">编辑商品</h1>
      <form action="{% url 'cs_admin:edit_goods' %}?gid={{ goods.id }}" method="post" enctype="multipart/form-data">
          <div class="in" style="text-align: right;width: 400px;">
@@ -33,6 +37,7 @@
              <label for="g_img">上传图片：</label>
              <input type="file" name="g_img" id="g_img"/><br>
          </div>
-        <button class="btn">确定</button>
+         <button class="edit_goods_btn">确定</button>
      </form>
+    </div>
 {% endblock %}

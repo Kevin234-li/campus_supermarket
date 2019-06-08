@@ -1,0 +1,24 @@
+{% extends 'admin/base.html' %}
+{% block title %}购买记录{% endblock %}
+{% block content %}
+    <h1 style="margin-left: 10px">购买记录</h1>
+    <form id="buy_history_form" action="{% url 'cs_admin:buy_history2' %}">
+        <label for="client_id">请输入您想查询客户的id：</label>
+        <input type="text" name="client_id" id="client_id"><br>
+        <input type="text" name="page_num" value="1" style="display: none">
+        <button type="button" style="height: 30px;width: 100px;margin:20px auto 30px 208px" id="buy_history_btn">确定
+        </button>
+    </form>
+    <script>
+        var buy_history_btn = document.getElementById("buy_history_btn"),
+            client_id = document.getElementById("client_id"),
+            buy_history_form = document.getElementById("buy_history_form");
+        buy_history_btn.onclick = function () {
+            if (client_id.value == "") {
+                alert("请输入客户id!")
+            } else {
+                buy_history_form.submit();
+            }
+        }
+    </script>
+{% endblock %}

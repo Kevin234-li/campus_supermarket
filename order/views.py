@@ -33,7 +33,7 @@ def list_cart(request):
         goods.num = item.goods_num
         goods.item_id = item.id
         goods_list.append(goods)
-    return render(request, 'user/list_cart.html',
+    return render(request, 'user/goods/list_cart.html',
                   {'goods_list': goods_list, 'user': user, 'num': num, 'MEDIA_URL': MEDIA_URL})
 
 
@@ -48,7 +48,7 @@ def add_cart(request):
         order_item.user_id = request.session.get('user_id')
         order_item.goods_num = request.GET.get('num')
     order_item.save()
-    return redirect(reverse('order:list_cart'))
+    return redirect(reverse('goods:index'))
 
 
 def delete_cart(request):
@@ -81,7 +81,7 @@ def add_order(request):
                 'json': text,
                 'user': user
             }
-            return render(request, 'user/add_order.html', d)
+            return render(request, 'user/goods/add_order.html', d)
         elif request.POST.get('status') == '1':
             order = OrderInfo()
             order.user = user
@@ -108,7 +108,7 @@ def add_order(request):
 def list_order(request):
     user_id = request.session.get('user_id')
     user = User.objects.get(id=user_id)
-    orders = OrderInfo.objects.filter(user_id=user_id).order_by('-id')
+    orders = OrderInfo.objects.filter(user_id=user_id).order_by('-order_date')
     order_group = []
     for order in orders:
         order_items = OrderItem.objects.filter(order_id=order.id)
@@ -128,4 +128,5 @@ def list_order(request):
         order_group = p.page(1)
     except EmptyPage:
         order_group = p.page(p.num_pages)
-    return render(request, 'user/list_order.html', {"order_group": order_group, 'user': user, 'MEDIA_URL': MEDIA_URL})
+    return render(request, 'user/goods/list_order.html',
+                  {"order_group": order_group, 'user': user, 'MEDIA_URL': MEDIA_URL})

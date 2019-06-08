@@ -1,0 +1,25 @@
+{% extends 'admin/base.html' %}
+{% block title %}分类管理-添加分类{% endblock %}
+{% block content %}
+    <style>
+        #add_cag_form td {
+            padding: 10px
+        }
+    </style>
+    <div style="margin: 30px 30px">
+        <h3>添加分类</h3>
+        <form action="{% url 'cs_admin:add_cag' %}" method="post" enctype="multipart/form-data" id="add_cag_form">
+            <table>
+                <tr>
+                    <td>分类名称：</td>
+                    <td><input type="text" name="cag_name"></td>
+                </tr>
+                <tr>
+                    <td>分类图片：</td>
+                    <td><input type="file" name="cag_img"></td>
+                </tr>
+            </table>
+            <button style="width: 100px;height: 30px;margin: 20px 0 0 113px">添加</button>
+        </form>
+    </div>
+{% endblock %}

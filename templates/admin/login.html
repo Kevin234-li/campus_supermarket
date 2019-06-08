@@ -1,39 +1,75 @@
-<!DOCTYPE html>
 <html>
-{% load static %}
 <head>
-<meta charset="utf-8"/>
-<title>后台登录</title>
-<meta name="author" content="DeathGhost" />
-<link rel="stylesheet" type="text/css" href="{% static 'admin/css/style.css' %}" />
-<style>
-body{height:100%;background:#16a085;overflow:hidden;}
-canvas{z-index:-1;position:absolute;}
-</style>
+    <title>校园超市-登录</title>
+    <style>
+        .login_body {
+            height: 440px;
+            width: 500px;
+            margin: 60px auto;
+            border: solid 1px #e1e1e2;
+        }
+
+        .login_body div {
+            width: 50%;
+            margin: 20px auto
+        }
+
+        .login_body div label {
+            height: 30px;
+            line-height: 30px;
+            width: 60px;
+            display: inline-block
+        }
+
+        .login_body div input {
+            height: 30px;
+            width: 160px
+        }
+
+        .login_body button {
+            width: 100px;
+            height: 30px;
+            margin-left: 185px;
+            margin-bottom: 20px
+        }
+    </style>
 </head>
 <body>
-<dl class="admin_login">
- <dt>
-  <strong>天天生鲜后台管理系统</strong>
-  <em>Backstage Management System</em>
- </dt>
-
- <form action="" method="post">
- <dd class="user_icon">
-  <input type="text" name="username" placeholder="账号" class="login_txtbx"/>
- </dd>
- <dd class="pwd_icon">
-  <input type="password" name="password" placeholder="密码" class="login_txtbx"/>
- </dd>
-     {{ msg }}
- <dd>
-  <input type="submit" value="立即登录" class="submit_btn"/>
- </dd>
-  </form>
- <dd>
-  <p>© 2016-2022 DeathGhost 版权所有</p>
-  <p>川A8-20180224-1</p>
- </dd>
-</dl>
+<form action="" method="POST">
+    <div class="login_body">
+        <div style="width: 500px;height: 200px"><img src="/static/images/logo.png" alt="logo"
+                                                     style="width: 500px;height: 200px;"></div>
+        <div style="width: 120px;margin: -20px auto 10px auto;font-size: 20px"><strong>管理员登录</strong></div>
+        <div><label for="username" style="">用户名:</label><input type="text" name="username" id="username"/></div>
+        <div><label for="pwd">密码:</label><input type="text" name="pwd" id="pwd"/></div>
+        <button type="button" id="admin_login_btn">登录</button>
+        <br>
+    </div>
+</form>
+<script>
+    var admin_login_btn = document.getElementById("admin_login_btn"),
+        username = document.getElementById("username"),
+        pwd = document.getElementById("pwd");
+    var xhr = null;
+    admin_login_btn.onclick = function () {
+        if (username.value == "" || pwd.value == "") {
+            alert("用户名或密码不能为空！")
+        } else {
+            xhr = new XMLHttpRequest();
+            xhr.open("POST", "{% url 'cs_admin:login' %}", true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    let ans = xhr.responseText;
+                    alert(ans);
+                    if (ans == "登录成功！") {
+                        window.location = "{% url 'cs_admin:list_goods' %}"
+                    }
+                }
+            };
+            xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+            xhr.send("username=" + username.value + "&pwd=" + pwd.value)
+        }
+    }
+</script>
 </body>
 </html>

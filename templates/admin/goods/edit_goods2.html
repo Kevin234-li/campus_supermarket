@@ -1,0 +1,24 @@
+{% extends 'admin/base.html' %}
+{% block title %}编辑商品{% endblock %}
+{% block content %}
+    <h1 style="margin-left: 10px">编辑商品</h1>
+    <form id="edit_goods2_form">
+        <label for="goods_id">请输入您想要编辑的商品id：</label>
+        <input type="text" name="goods_id" id="goods_id"><br>
+        <button type="button" style="height: 30px;width: 100px;margin:20px auto 30px 208px" id="edit_goods2_btn">确定
+        </button>
+    </form>
+    <script>
+        var edit_goods2_btn = document.getElementById("edit_goods2_btn"),
+            edit_goods2_form = document.getElementById("edit_goods2_form"),
+            goods_id = document.getElementById("goods_id");
+        edit_goods2_btn.onclick = function () {
+            if (goods_id.value == "") {
+                alert("请输入商品id!")
+            } else {
+                window.location = "{% url 'cs_admin:edit_goods' %}?gid=" + goods_id.value;
+            }
+        }
+
+    </script>
+{% endblock %}

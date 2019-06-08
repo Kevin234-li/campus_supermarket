@@ -1,0 +1,86 @@
+{% extends 'user/base.html' %}
+{% block title %}个人中心{% endblock %}
+{% block content %}
+    <style>
+        .left_bar {
+            width: 20%;
+            min-height: 350px;
+            float: left;
+        }
+
+        .right_content {
+            width: 79%;
+            min-height: 330px;
+            float: left;
+            border: solid 1px #dedede;
+            margin: 0 0 30px 0;
+        }
+
+        .left_bar h2 {
+            text-align: center;
+            border-bottom: solid 1px #3685f1;
+            width: 200px;
+            margin: 30px auto 5px
+        }
+
+        .left_bar ul {
+            padding-left: 0;
+            width: 200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .left_bar ul li {
+            margin: 10px;
+            font: 20px bold 微软雅黑;
+            height: 40px;
+            line-height: 40px;
+        }
+
+        .left_bar ul li:hover {
+            background-color: #428bca;
+            color: white;
+            cursor: pointer;
+        }
+
+        .basic_info_table {
+            margin: 5px auto auto 50px;
+            border-collapse: collapse
+        }
+
+        .basic_info_table tr td {
+            height: 40px;
+            width: 100px;
+        }
+
+        .basic_info_btn {
+            width: 80px;
+            height: 30px;
+            margin: 20px 50px;
+        }
+    </style>
+    <div class="left_bar">
+        <h2>个人中心</h2>
+        <ul>
+            <li id="basic_info" class="left_li">基本信息</li>
+            <li id="account_security" class="left_li">账户与安全</li>
+            <li id="address" class="left_li">地址管理</li>
+        </ul>
+    </div>
+    <div class="right_content">
+        {% block user_center %}
+        {% endblock %}
+    </div>
+    <script>
+        var items = document.getElementsByClassName("left_li"),
+            right_content = document.getElementsByClassName("right_content")[0];
+        var xhr = null;
+        var user_urls = new Array("{% url 'user:basic_info' %}", "{% url 'user:account_security' %}", "{% url 'user:address' %}")
+        for (let i = 0; i < items.length; i++) {
+            items[i].onclick = function () {
+                window.location = user_urls[i];
+            }
+        }
+
+    </script>
+{% endblock %}

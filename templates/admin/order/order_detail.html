@@ -1,0 +1,79 @@
+{% extends 'admin/base.html' %}
+{% block title %}
+    订单列表
+{% endblock %}
+{% block content %}
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            text-align: center;
+            font: 16px bold Microsoft Yahei;
+            margin: 0 auto;
+        }
+
+        th {
+            height: 40px;
+            color: white;
+            background-color: cornflowerblue;
+            border: 1px solid cornflowerblue
+        }
+
+        td {
+            border: 1px solid #D9EDF7;
+            height: 30px;
+        }
+
+        .outer_table {
+            margin: 0 auto
+        }
+
+        a:hover {
+            color: #3b99fc;
+        }
+
+        .top_order span {
+            float: left;
+            padding-left: 50px;
+            margin-bottom: 8px;
+        }
+    </style>
+    <table class="outer_table">
+        <tr>
+            <td style="border: 0">
+                <h1>订单详情</h1>
+                <div class="top_order">
+                    <span><strong>订单号：</strong><ins>{{ order.id }}</ins></span>
+                    <span><strong>客户姓名：</strong><ins>{{ order.client_name }}</ins></span>
+                    <span><strong>创建日期：</strong><ins>{{ order.order_date }}</ins></span>
+                    <span><strong>总金额：</strong><ins>¥ {{ order.order_total }}</ins></span>
+                </div>
+                <div style="margin: 5px 0">
+                    <table border="1" class="table">
+                        <tr>
+                            <th class="head">商品编号</th>
+                            <th class="head">商品图片</th>
+                            <th class="head">商品名称</th>
+                            <th class="head">商品类别</th>
+                            <th class="head">商品单价</th>
+                            <th class="head">购买数量</th>
+                            <th class="head">金额</th>
+                        </tr>
+                        {% for goods in goods_list %}
+                            <tr>
+                                <td>{{ goods.id }}</td>
+                                <td><img src="{{ MEDIA_URL }}{{ goods.goods_img }}" alt="商品图片"
+                                         style="max-height: 100px;max-width: 100px"></td>
+                                <td>{{ goods.goods_name }}</td>
+                                <td>{{ goods.goods_cag_name }}</td>
+                                <td>{{ goods.goods_price }} / {{ goods.goods_unit }}</td>
+                                <td>{{ goods.goods_num }}</td>
+                                <td>¥ {{ goods.goods_pay }}</td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

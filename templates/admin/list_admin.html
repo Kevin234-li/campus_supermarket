@@ -1,19 +1,31 @@
 {% extends 'admin/base.html' %}
-{% block title %}
-管理员列表
-{% endblock %}
+{% block title %}管理员列表{% endblock %}
 {% block content %}
+    <style>
+        .list_admin tr td {
+            text-align: center;
+            width: 200px;
+        }
+    </style>
+    <div style="margin-left: 30px">
 <h2 class="fl">管理员列表</h2>
-    <table border="1" style="border-collapse: collapse">
+        <table border="1" style="border-collapse: collapse" class="list_admin">
         <tr>
             <td>编号</td>
             <td>用户名</td>
+            <td>操作</td>
         </tr>
         {% for admin in admins %}
             <tr>
                 <td>{{ admin.id }}</td>
                 <td>{{ admin.username }}</td>
+                <td>
+                    <a href="">编辑</a>
+                    <span class="seq">|</span>
+                    <a href="">移除</a>
+                </td>
             </tr>
         {% endfor %}
     </table>
+    </div>
 {% endblock %}

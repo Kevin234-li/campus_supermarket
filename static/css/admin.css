@@ -36,9 +36,21 @@ li{list-style: none}
     float: left;
     width: 170px;
 }
-.left ul{padding-left: 0px;width: 100px;margin: 0 auto}
+
+.left ul {
+    padding-left: 0px;
+    width: 120px;
+    margin: 0 auto
+}
 .first{font: 20px bold 微软雅黑;padding-left: 0;width: 120px;}
-.second{cursor: pointer;padding-left: 0;width: 100px;margin: 8px 0;text-align: center}
+
+.second {
+    cursor: pointer;
+    padding-left: 0;
+    width: 120px;
+    margin: 8px 0;
+    text-align: center
+}
 li.second:hover{background-color: #428bca;color: white;}
 .right{
     width: 83%;
@@ -46,7 +58,7 @@ li.second:hover{background-color: #428bca;color: white;}
     margin-left: 30px;
     border: solid 1px #dedede;
     border-top: 0;
-    min-height: 400px;
+    min-height: 580px;
 }
 .footer{border-top:2px solid #428bca;margin:10px 0;clear: both;width: 100%}
 .foot_link{text-align:center;margin-top:30px;}

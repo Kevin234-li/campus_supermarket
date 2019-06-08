@@ -1,0 +1,88 @@
+{% extends 'admin/base.html' %}
+{% block title %}客户列表{% endblock %}
+{% block content %}
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 90%;
+            text-align: center;
+            font: 16px bold Microsoft Yahei;
+            margin: 0 auto;
+        }
+
+        th {
+            height: 40px;
+            color: white;
+            background-color: cornflowerblue;
+            border: 1px solid cornflowerblue
+        }
+
+        td {
+            border: 1px solid #D9EDF7;
+            height: 30px;
+        }
+
+        .outer_table {
+            margin: 0 auto
+        }
+
+        a:hover {
+            color: #3b99fc;
+        }
+    </style>
+    <table class="outer_table">
+        <tr>
+            <td style="border: 0">
+                <h1>客户列表</h1>
+                <table border="1" style="border-collapse: collapse">
+                    <tr>
+                        <th>客户编号</th>
+                        <th>客户姓名</th>
+                        <th>性别</th>
+                        <th>出生日期</th>
+                        <th>手机</th>
+                        <th>邮箱</th>
+                        <th>收货地址</th>
+                        <th>操作</th>
+                    </tr>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.username }}</td>
+                            <td>
+                                {% if user.gender %}
+                                    {{ user.gender }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user.birth_date %}
+                                    {{ user.birth_date }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user.phone %}
+                                    {{ user.phone }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user.email %}
+                                    {{ user.email }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if user.direction %}
+                                    {{ user.direction }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a href="{% url 'cs_admin:buy_history2' %}?client_id={{ user.id }}&page_num=1">查看</a>
+                                <span class="seq">|</span>
+                                <a href="{% url 'cs_admin:edit_user' %}?user_id={{ user.id }}">编辑</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </td>
+        </tr>
+    </table>
+{% endblock %}

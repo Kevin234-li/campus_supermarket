@@ -64,6 +64,5 @@ def goods_detail(request):
     user = User.objects.get(id=user_id)
     goods_id = request.GET.get('gid')
     goods = GoodsInfo.objects.get(id=goods_id)
-    return render(request, 'user/goods_detail.html', {'goods': goods, "user": user, "MEDIA_URL": MEDIA_URL})
-
-
+    goods.cag_name = GoodsCategory.objects.get(id=goods.cag_id).cag_name
+    return render(request, 'user/goods/goods_detail.html', {'goods': goods, "user": user, "MEDIA_URL": MEDIA_URL})

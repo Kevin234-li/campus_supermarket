@@ -1,0 +1,43 @@
+{% extends 'user/user_center/usercenter_base.html' %}
+{% block user_center %}
+    <style>
+        .edit_address {
+            width: 500px;
+            height: 50px;
+            margin: 20px auto 0 0px
+        }
+
+        .edit_address span {
+            width: 100px;
+            height: 30px;
+            display: inline-block;
+            float: left
+        }
+    </style>
+    <h3 style="margin: 30px auto 0 50px">地址管理</h3>
+    <div style="margin: 10px auto 0 50px;">
+        <form action="{% url 'user:address' %}" method="POST" class="edit_address" id="edit_address_form">
+            <span>当前地址：</span>
+            {% if user.direction %}
+                <span id="address_span" style="width: 400px">{{ user.direction }}</span><br>
+            {% else %}
+                <span id="address_span" style="width: 400px">无</span><br>
+            {% endif %}
+        </form>
+        <button style="width: 80px;height: 30px;margin-top: 0px" id="edit_address_btn">编辑</button>
+    </div>
+    <script>
+        var edit_address_btn = document.getElementById("edit_address_btn"),
+            edit_address_form = document.getElementById("edit_address_form"),
+            address_span = document.getElementById("address_span");
+        edit_address_btn.onclick = function () {
+            if (edit_address_btn.innerHTML == "编辑") {
+                address_span.innerHTML = "<input type=\"text\" " + "value=" + address_span.innerHTML + " name=address" + ">";
+                edit_address_btn.innerHTML = "保存";
+            } else {
+                edit_address_form.submit();
+            }
+        }
+    </script>
+{% endblock %}
+/>

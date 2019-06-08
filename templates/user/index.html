@@ -6,7 +6,14 @@
         <div style="font-size: 30px;text-align: center;margin:5px 50px 5px auto;width:200px;border-bottom: 1px solid #3685f1">全部分类</div>
         <ul>
             {% for cag_goods in cag_goods_list %}
-                <a href="#{{ cag_goods.cag.cag_name }}"><li style="line-height: 40px">{{ cag_goods.cag.cag_name }}</li></a>
+                <a href="#{{ cag_goods.cag.cag_name }}">
+                    <li style="line-height: 40px">
+                        <div style="margin: 0 auto;height: 40px;width: 120px;">
+                            <img alt="" style="height: 30px;width: 30px;float: left;padding-top: 3px" class="cag_img">
+                            <span style="float: left;padding-left: 10px">{{ cag_goods.cag.cag_name }}</span>
+                        </div>
+                    </li>
+                </a>
             {% endfor %}
         </ul>
     </div>
@@ -52,8 +59,13 @@
         var left = slides_ul.offsetLeft, width = slides_ul.firstElementChild.offsetWidth;
         var blues = document.getElementsByClassName("slides_bottom")[0];
         var t = setInterval(change,3000);
+        var cag_imgs = document.getElementsByClassName("cag_img");
+        var cag_names = new Array("零食", "水果", "文具", "生活用品", "电器", "饮料");
         window.onload = init;
         function init() {
+            for (let i = 0; i < 6; i++) {
+                cag_imgs[i].src = "/static/images/" + cag_names[i] + ".png";
+            }
             for(let i = 0;i<count;i++){
                 blues.children[i].onmouseenter = function () {
                     slides_ul.style.left = left - i * width +"px";
@@ -68,7 +80,7 @@
             }
             blues.onmouseenter = function () {
                 clearInterval(t);
-            }
+            };
             blues.onmouseleave = function () {
                 t = setInterval(change,3000);
             }

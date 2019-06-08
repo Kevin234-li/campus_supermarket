@@ -1,0 +1,108 @@
+{% extends 'user/user_center/usercenter_base.html' %}
+{% block user_center %}
+    <style>
+        .edit_pwd_form {
+            display: none;
+            width: 500px;
+            height: 250px;
+            margin: 10px auto 0 30px
+        }
+
+        .edit_pwd_form label {
+            width: 100px;
+            float: left;
+            clear: both;
+            text-align: center
+        }
+
+        .edit_pwd_form label, input {
+            margin: 10px auto;
+            height: 20px;
+            float: left
+        }
+
+        #submit_pwd_btn {
+            width: 100px;
+            height: 30px;
+            margin-left: 100px;
+            clear: both
+        }
+
+        #edit_pwd_btn {
+            width: 100px;
+            height: 30px;
+            margin-left: 50px;
+            margin-top: 20px;
+        }
+    </style>
+    <h3 style="margin: 30px auto 0 50px">账户与安全</h3>
+    <button id="edit_pwd_btn">修改密码</button>
+    <form action="{% url 'user:account_security' %}" class="edit_pwd_form" id="edit_pwd_form" method="post">
+        <label for="">原密码：</label>
+        <input type="password" name="old_pwd">
+        <span id="msg1" style="float:left;height: 20px;line-height: 20px;margin: 10px 0 0 10px;color:red"></span>
+        <label for="">新密码:</label>
+        <input type="password" name="new_pwd">
+        <label for="" style="margin-bottom: 0">确认密码：</label>
+        <input type="password" name="new_pwd_confirm" style="margin-bottom: 0">
+        <span id="msg2"
+              style="float:left;height: 20px;line-height: 20px;margin: 13px 0 0 10px;color:red;display: inline-block"></span>
+        <input type="button" value="提交" id="submit_pwd_btn">
+    </form>
+
+    <script>
+        var edit_pwd_btn = document.getElementById("edit_pwd_btn"),
+            edit_pwd_form = document.getElementById("edit_pwd_form"),
+            submit_pwd_btn = document.getElementById("submit_pwd_btn");
+        var inputs = edit_pwd_form.getElementsByTagName("input");
+        var xhr = null;
+        window.onload = function () {
+            edit_pwd_btn.onclick = function () {
+                edit_pwd_btn.style.display = "none";
+                edit_pwd_form.style.display = "block";
+            };
+            for (let i = 0; i < inputs.length; i++) {
+                inputs[i].oninput = function () {
+                    document.getElementById("msg1").innerHTML = "";
+                    document.getElementById("msg2").innerHTML = "";
+                }
+            }
+        };
+        submit_pwd_btn.onclick = function () {
+            var flag = true;
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].value == "") {
+                    flag = false;
+                    alert("请填写完整信息！")
+                    break;
+                }
+            }
+            if (flag) {
+                if (inputs[1].value != inputs[2].value) {
+                    document.getElementById("msg2").innerHTML = "两次密码不一致！"
+                    inputs[1].value = "";
+                    inputs[2].value = "";
+                } else {
+                    xhr = new XMLHttpRequest();
+                    xhr.open("POST", "{% url 'user:account_security' %}", true);
+                    xhr.onreadystatechange = function () {
+                        response = xhr.responseText
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            if (response == "false") {
+                                document.getElementById("msg1").innerHTML = "密码输入错误！";
+                                for (let i = 0; i < inputs.length - 1; i++) {
+                                    inputs[i].value = ""
+                                }
+                            } else {
+                                alert("修改成功！")
+                                window.location = "{% url 'user:account_security' %}";
+                            }
+                        }
+                    };
+                    xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+                    xhr.send("old_pwd=" + inputs[0].value + "&new_pwd=" + inputs[1].value)
+                }
+            }
+        }
+    </script>
+{% endblock %}

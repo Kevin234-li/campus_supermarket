@@ -10,11 +10,10 @@ urlpatterns = [
     url(r'^login/', views.login, name='login'),
     # 退出
     url(r'^logout/', views.logout, name='logout'),
-    # 档案
-    url(r'profile/', views.profile, name='profile'),
     # 编辑
-    url(r'edit/', views.edit, name='edit'),
-    url(r'basic_info/', views.basic_info, name='basic_info'),
-    url(r'account_security/', views.account_security, name='account_security'),
-    url(r'address/', views.address, name='address'),
+    url(r'^basic_info/$', views.basic_info, name='basic_info'),
+    url(r'^edit_basic_info/$', views.edit_basic_info, name='edit_basic_info'),
+    url(r'^account_security/$', views.account_security, name='account_security'),
+    url(r'^address/$', views.address, name='address'),
+
 ]
