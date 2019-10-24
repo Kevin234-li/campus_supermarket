@@ -42,7 +42,7 @@ def add_cart(request):
         order_item = OrderItem.objects.get(user_id=request.session.get('user_id'), goods_id=request.GET.get('gid'),
                                            order_pay="0")
         order_item.goods_num += int(request.GET.get('num'))
-    except:
+    except Exception:
         order_item = OrderItem()
         order_item.goods_id = request.GET.get('gid')
         order_item.user_id = request.session.get('user_id')
