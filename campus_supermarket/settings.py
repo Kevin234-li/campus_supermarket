@@ -84,11 +84,11 @@ WSGI_APPLICATION = 'campus_supermarket.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'campus_supermarket',
+        'NAME': 'shop',
         'HOST': 'localhost',
         'PORT': 3306,
         'USER': 'root',
-        'PASSWORD': 'root'
+        'PASSWORD': '1125abcd'
     }
 }
 
